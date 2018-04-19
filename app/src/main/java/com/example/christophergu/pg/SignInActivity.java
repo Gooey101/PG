@@ -24,6 +24,7 @@ public class SignInActivity extends Activity {
 
     private EditText mPhoneNumber;
     public static final String regexStr = "^[0-9\\-]*$";
+    public static final String strPhone = "phone";
     public static final String strUsername = "username";
     public static final String strDob = "dob";
 
@@ -72,10 +73,11 @@ public class SignInActivity extends Activity {
                     }
 
                     if (response.body().size() > 0) {
-                        UserName[0] = response.body().get(0).getUsername();
                         phoneNum[0] = response.body().get(0).getPhone();
+                        UserName[0] = response.body().get(0).getUsername();
                         DOB[0] = response.body().get(0).getDob();
 
+                        login.putExtra(strPhone, phoneNum[0]);
                         login.putExtra(strUsername, UserName[0]);
                         login.putExtra(strDob, DOB[0].substring(0, 10));
                         startActivity(login);
