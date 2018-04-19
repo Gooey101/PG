@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.christophergu.pg.data.Account;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -87,17 +89,5 @@ public class SignUpActivity extends AppCompatActivity {
     public interface SignUpAPIInterface {
         @POST("account")
         Call<Account> createAccount(@Body Account body);
-    }
-
-    public class Account {
-        private String username;
-        private String phone;
-        private String dob;
-
-        public Account(String phone, String username, String dob){
-            this.username = username;
-            this.phone = phone;
-            this.dob = dob;
-        }
     }
 }
