@@ -15,13 +15,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
 
 public class SignUpActivity extends AppCompatActivity {
 
     private Retrofit retrofit;
-    private SignUpAPIInterface service;
+    private PGInterface service;
 
     private EditText mPhoneNumber;
     private EditText mUserName;
@@ -46,7 +44,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        service = retrofit.create(SignUpAPIInterface.class);
+        service = retrofit.create(PGInterface.class);
     }
 
     /**
@@ -84,10 +82,5 @@ public class SignUpActivity extends AppCompatActivity {
         mDob.getText().clear();
         if (isCreated[0])
             Toast.makeText(this, "Account Created!", Toast.LENGTH_SHORT).show();
-    }
-
-    public interface SignUpAPIInterface {
-        @POST("account")
-        Call<Account> createAccount(@Body Account body);
     }
 }

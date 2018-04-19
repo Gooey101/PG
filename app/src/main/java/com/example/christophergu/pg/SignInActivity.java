@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import com.example.christophergu.pg.data.Account;
 
 import java.util.List;
@@ -17,14 +16,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
-
 
 public class SignInActivity extends Activity {
 
     private Retrofit retrofit;
-    private APIInterface service;
+    private PGInterface service;
 
     private EditText mPhoneNumber;
     public static final String regexStr = "^[0-9\\-]*$";
@@ -42,7 +38,7 @@ public class SignInActivity extends Activity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        service = retrofit.create(APIInterface.class);
+        service = retrofit.create(PGInterface.class);
     }
 
 
@@ -96,10 +92,5 @@ public class SignInActivity extends Activity {
                 }
             });
         }
-    }
-
-    public interface APIInterface {
-        @GET("account")
-        Call<List<Account>> getAccount(@Query("phone") String phone);
     }
 }
