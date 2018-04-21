@@ -29,21 +29,5 @@ public class MainActivity extends AppCompatActivity {
         // Set account information
         mUsername.setText(intentUsername);
         mDob.setText(intentDob);
-
-        // Write to shared preferences
-        SharedPreferences writeSharedPref = this.getSharedPreferences("accountInfo", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = writeSharedPref.edit();
-        editor.putString("accountPhone", intentPhone);
-        editor.putString("accountUsername", intentUsername);
-        editor.putString("accountDob", intentDob);
-        editor.apply();
-
-        // Read from shared preferences
-        /*
-        SharedPreferences readSharedPref = getSharedPreferences("accountInfo", Context.MODE_PRIVATE);
-        String phone = readSharedPref.getString("accountPhone", null);
-        String username = readSharedPref.getString("accountUsername", null);
-        String dob = readSharedPref.getString("accountDob", null);
-        */
     }
 }
