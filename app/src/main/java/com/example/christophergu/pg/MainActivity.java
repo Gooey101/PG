@@ -1,13 +1,9 @@
 package com.example.christophergu.pg;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
-
-import com.example.christophergu.pg.data.Account;
 
 public class MainActivity extends AppCompatActivity {
 
