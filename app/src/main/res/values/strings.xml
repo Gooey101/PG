@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">PG</string>
+
+    <string-array name="datePick">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+
+    </string-array>
+
+    <string name ="event_create">Create Game</string>
+    <string name="success">Success!</string>
+    <string name="userName">userName</string>
+    <string name="userPhone">userPhone</string>
+    <string name="userDOB">userDOB</string>
+    <string name="userInfo">userInfo</string>
+    <string name="next">next</string>
+    <string name="passSport">passSport</string>
+    <string name="passCID">passCID</string>
+
 </resources>

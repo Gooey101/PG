@@ -17,10 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
         <activity android:name=".MainActivity" />
-        <activity android:name=".SignInActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".CreateGameActivity"/>
+        <activity android:name=".SignInActivity" android:parentActivityName=".SignUpActivity"/>
+        <activity android:name=".SignUpActivity" android:parentActivityName=".SignInActivity"/>
+        <activity android:name=".CourtsListActivity" android:parentActivityName=".SportListActivity"/>
+        <activity android:name=".SportListActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".CreateGameActivity" android:parentActivityName=".CourtsListActivity"/>
     </application>
 
 </manifest>

@@ -32,6 +32,9 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         // Set local attributes to corresponding views
         mPhoneNumber = findViewById(R.id.etPhone);
         mUserName = findViewById(R.id.etUsername);

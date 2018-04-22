@@ -1,7 +1,9 @@
 package com.example.christophergu.pg;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -24,14 +26,14 @@ public class SignInActivity extends Activity {
 
     private EditText mPhoneNumber;
     public static final String regexStr = "^[0-9\\-]*$";
-    public static final String strPhone = "phone";
-    public static final String strUsername = "username";
-    public static final String strDob = "dob";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+
         mPhoneNumber = findViewById(R.id.etPhone);
 
         retrofit= new Retrofit.Builder()
@@ -77,9 +79,15 @@ public class SignInActivity extends Activity {
                         UserName[0] = response.body().get(0).getUsername();
                         DOB[0] = response.body().get(0).getDob();
 
-                        login.putExtra(strPhone, phoneNum[0]);
-                        login.putExtra(strUsername, UserName[0]);
-                        login.putExtra(strDob, DOB[0].substring(0, 10));
+
+                        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
+                                getString(R.string.userInfo), Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString(getString(R.string.userName), UserName[0]);
+                        editor.putString(getString(R.string.userPhone), phoneNum[0]);
+                        editor.putString(getString(R.string.userDOB), DOB[0]);
+                        editor.apply();
+
                         startActivity(login);
                     } else {
                         Toast.makeText(getApplicationContext(), "This number has not been registered yet. Please sign up~",
