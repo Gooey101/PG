@@ -21,29 +21,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignInActivity extends Activity {
 
-    private Retrofit retrofit;
     private PGInterface service;
 
     private EditText mPhoneNumber;
     public static final String regexStr = "^[0-9\\-]*$";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-
         mPhoneNumber = findViewById(R.id.etPhone);
 
-        retrofit= new Retrofit.Builder()
+        // Create retrofit instance
+        Retrofit retrofit= new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         service = retrofit.create(PGInterface.class);
     }
-
 
     public void enterPhone(View view) {
 
@@ -52,6 +48,7 @@ public class SignInActivity extends Activity {
         final String[] UserName = {"default"};
         final String[] DOB = {"01-01-2000"};
 
+        // Check phone number
         String input = mPhoneNumber.getText().toString();
         if (input.length() == 0) {
             Toast.makeText(getApplicationContext(), "Please enter your phone number.",
@@ -63,10 +60,12 @@ public class SignInActivity extends Activity {
         }
         else {
 
-            //Request for API
-            Call<List<Account>> model = service.getAccount(input);
+            // Create explicit intents
             final Intent login = new Intent(this, MainActivity.class);
             final Intent signUp = new Intent(this, SignUpActivity.class);
+
+            // Request API to getAccount
+            Call<List<Account>> model = service.getAccount(input);
             model.enqueue(new Callback<List<Account>>() {
                 @Override
                 public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
@@ -75,11 +74,12 @@ public class SignInActivity extends Activity {
                     }
 
                     if (response.body().size() > 0) {
+                        // Retrieve Account information
                         phoneNum[0] = response.body().get(0).getPhone();
                         UserName[0] = response.body().get(0).getUsername();
                         DOB[0] = response.body().get(0).getDob();
 
-
+                        // Create SharedPreferences with Account information
                         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
                                 getString(R.string.userInfo), Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
@@ -88,10 +88,13 @@ public class SignInActivity extends Activity {
                         editor.putString(getString(R.string.userDOB), DOB[0]);
                         editor.apply();
 
+                        // Go to MainActivity
                         startActivity(login);
                     } else {
                         Toast.makeText(getApplicationContext(), "This number has not been registered yet. Please sign up~",
                                 Toast.LENGTH_SHORT).show();
+
+                        // Go to SignUpActivity
                         startActivity(signUp);
                     }
                 }

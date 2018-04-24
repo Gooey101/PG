@@ -1,6 +1,6 @@
 package com.example.christophergu.pg.data;
 
-public class Courts {
+public class Court {
     private int cid;
     private boolean mPublic;
     private boolean mOutside;
@@ -12,7 +12,7 @@ public class Courts {
     private int numNets = 0;
     private int grass = 2;
 
-    public Courts(int cid, String address, boolean mPublic, boolean mOutside, String openTime, String closeTime, int numLanes, int numHoops, int numNets, int grass) {
+    public Court(int cid, String address, boolean mPublic, boolean mOutside, String openTime, String closeTime, int numLanes, int numHoops, int numNets, int grass) {
         this.cid = cid;
         this.mPublic = mPublic;
         this.mOutside = mOutside;
@@ -24,8 +24,6 @@ public class Courts {
         this.numNets = numNets;
         this.grass = grass;
     }
-
-
 
     public int getCid() {
         return cid;

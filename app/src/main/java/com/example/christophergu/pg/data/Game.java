@@ -1,10 +1,8 @@
 package com.example.christophergu.pg.data;
 
-import java.sql.Date;
-import java.sql.Time;
+public class Game {
 
-public class Event {
-
+    private String sport;
     private int gid;
     private String description;
     private String gameDate;
@@ -15,13 +13,13 @@ public class Event {
     private int minSkillLevel;
     private int capacity;
     private String phone;
-    private String sport;
     private int cid;
+    //TODO: add attributes 'attendees' and 'filled'
 
 
-    public Event(String phone, String description, String gameDate, String startTime,
-                 String endTime, int minAge, int maxAge, int minSkillLevel, int capacity,
-                 String sport, int cid){
+    public Game(String phone, String description, String gameDate, String startTime,
+                String endTime, int minAge, int maxAge, int minSkillLevel, int capacity,
+                String sport, int cid){
 
         this.phone = phone;
         this.description = description;
@@ -36,8 +34,8 @@ public class Event {
         this.cid = cid;
     }
 
-    public Event(int gid, String phone, String description, String gameDate, String startTime,
-                 String endTime, int minAge, int maxAge, int minSkillLevel, int capacity){
+    public Game(int gid, String phone, String description, String gameDate, String startTime,
+                String endTime, int minAge, int maxAge, int minSkillLevel, int capacity){
 
         this.phone = phone;
         this.description = description;

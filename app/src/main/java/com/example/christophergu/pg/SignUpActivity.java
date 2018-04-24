@@ -18,7 +18,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Retrofit retrofit;
     private PGInterface service;
 
     private EditText mPhoneNumber;
@@ -34,7 +33,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         // Set local attributes to corresponding views
         mPhoneNumber = findViewById(R.id.etPhone);
         mUserName = findViewById(R.id.etUsername);
@@ -42,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         mSignUp = findViewById(R.id.btnSignUp);
 
         //Create retrofit instance
-        retrofit= new Retrofit.Builder()
+        Retrofit retrofit= new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -65,12 +63,13 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
+        // Request API to create Account
         Account newAccount = new Account(mPhoneNumber.getText().toString(), mUserName.getText().toString(), mDob.getText().toString());
         Call<Account> call = service.createAccount(newAccount);
         call.enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
-                if(response.isSuccessful()){
+                if(response.isSuccessful()) {
                     isCreated[0] = true;
                 }
             }

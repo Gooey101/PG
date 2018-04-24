@@ -1,8 +1,8 @@
 package com.example.christophergu.pg;
 
 import com.example.christophergu.pg.data.Account;
-import com.example.christophergu.pg.data.Courts;
-import com.example.christophergu.pg.data.Event;
+import com.example.christophergu.pg.data.Court;
+import com.example.christophergu.pg.data.Game;
 
 import java.util.List;
 
@@ -18,14 +18,11 @@ public interface PGInterface {
     Call<List<Account>> getAccount(@Query("phone") String phone);
 
     @GET("courts/{sportType}")
-    Call<List<Courts>> getCourts(@Path("sportType") String sportType);
-
+    Call<List<Court>> getCourts(@Path("sportType") String sportType);
 
     @POST("account")
     Call<Account> createAccount(@Body Account body);
 
     @POST("game")
-    Call<Event> createEvent(@Body Event body);
-
-
+    Call<Game> createGame(@Body Game body);
 }

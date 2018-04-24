@@ -18,14 +18,12 @@
             </intent-filter>
         </activity>
 
-
-
         <activity android:name=".MainActivity" />
         <activity android:name=".SignInActivity" android:parentActivityName=".SignUpActivity"/>
         <activity android:name=".SignUpActivity" android:parentActivityName=".SignInActivity"/>
-        <activity android:name=".CourtsListActivity" android:parentActivityName=".SportListActivity"/>
+        <activity android:name=".CourtListActivity" android:parentActivityName=".SportListActivity"/>
         <activity android:name=".SportListActivity" android:parentActivityName=".MainActivity"/>
-        <activity android:name=".CreateGameActivity" android:parentActivityName=".CourtsListActivity"/>
+        <activity android:name=".CreateGameActivity" android:parentActivityName=".CourtListActivity"/>
     </application>
 
 </manifest>

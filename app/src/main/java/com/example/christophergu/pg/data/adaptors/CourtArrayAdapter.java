@@ -6,32 +6,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.christophergu.pg.CourtsListActivity;
+import com.example.christophergu.pg.CourtListActivity;
 import com.example.christophergu.pg.R;
-import com.example.christophergu.pg.data.Courts;
+import com.example.christophergu.pg.data.Court;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class CourtArrayAdapter extends ArrayAdapter<Courts> {
-    private final List<Courts> courts;
+public class CourtArrayAdapter extends ArrayAdapter<Court> {
+    private final List<Court> courts;
     private final Context context;
 
-    public CourtArrayAdapter(@NonNull Context context, int resource, @NonNull List<Courts> courts) {
+    public CourtArrayAdapter(@NonNull Context context, int resource, @NonNull List<Court> courts) {
         super(context, resource, courts);
         this.context = context;
         this.courts = courts;
     }
 
-
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.court_row, parent, false);
+        View rowView = inflater.inflate(R.layout.item_court_list, parent, false);
 
         TextView tvLocation = rowView.findViewById(R.id.tvCourtLocation);
         TextView tvPublic = rowView.findViewById(R.id.tvIsPublic);
@@ -58,7 +53,7 @@ public class CourtArrayAdapter extends ArrayAdapter<Courts> {
 
         if(courts.get(position).isGrass() == 1)
             descriptions += "Grass field: True";
-        else if(courts.get(position).isGrass() == 0 && CourtsListActivity.sportType.equals("soccer-fields"))
+        else if(courts.get(position).isGrass() == 0 && CourtListActivity.sportType.equals("soccer-fields"))
             descriptions += "Grass field: False";
 
         if(descriptions==""){

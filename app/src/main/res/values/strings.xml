@@ -7,10 +7,9 @@
         <item>3</item>
         <item>4</item>
         <item>5</item>
-
     </string-array>
 
-    <string name ="event_create">Create Game</string>
+    <string name="create_game">Create Game</string>
     <string name="success">Success!</string>
     <string name="userName">userName</string>
     <string name="userPhone">userPhone</string>
