@@ -3,12 +3,14 @@ package com.example.christophergu.pg;
 import com.example.christophergu.pg.data.Account;
 import com.example.christophergu.pg.data.Court;
 import com.example.christophergu.pg.data.Game;
+import com.example.christophergu.pg.data.QuitGame;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -25,4 +27,10 @@ public interface PGInterface {
 
     @POST("game")
     Call<Game> createGame(@Body Game body);
+
+    @GET("account/games")
+    Call<List<Game>> getGames(@Query("phone") String phone);
+
+    @PATCH("games/game")
+    Call<QuitGame> quitGame(@Body QuitGame body);
 }

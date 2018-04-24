@@ -14,6 +14,7 @@ public class Game {
     private int capacity;
     private String phone;
     private int cid;
+    private int attendees;
     //TODO: add attributes 'attendees' and 'filled'
 
 
@@ -34,8 +35,8 @@ public class Game {
         this.cid = cid;
     }
 
-    public Game(int gid, String phone, String description, String gameDate, String startTime,
-                String endTime, int minAge, int maxAge, int minSkillLevel, int capacity){
+    public Game(int gid, String sport, String phone, String description, String gameDate, String startTime,
+                String endTime, int minAge, int maxAge, int minSkillLevel, int capacity, int attendees){
 
         this.phone = phone;
         this.description = description;
@@ -46,6 +47,9 @@ public class Game {
         this.maxAge = maxAge;
         this.minSkillLevel = minSkillLevel;
         this.capacity = capacity;
+        this.gid = gid;
+        this.sport = sport;
+        this.attendees = attendees;
     }
 
     public String getDescription() {
@@ -136,5 +140,13 @@ public class Game {
 
     public void setCid(int cid) {
         this.cid = cid;
+    }
+
+    public int getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(int attendees) {
+        this.attendees = attendees;
     }
 }

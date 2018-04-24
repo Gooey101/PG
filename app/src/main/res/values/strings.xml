@@ -18,5 +18,6 @@
     <string name="next">next</string>
     <string name="passSport">passSport</string>
     <string name="passCID">passCID</string>
+    <string name="quit">Quit Game</string>
 
 </resources>
