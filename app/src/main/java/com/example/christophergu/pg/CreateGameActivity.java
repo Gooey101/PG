@@ -212,6 +212,7 @@ public class CreateGameActivity extends AppCompatActivity {
             };
 
 
+
     public void selectStartTime(View view) {
         TimePickerFragment newFragment = new TimePickerFragment();
         newFragment.setEditText(etStartTime);
