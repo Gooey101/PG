@@ -12,6 +12,13 @@ public class Account {
         this.dob = dob;
     }
 
+    public Account(String phone){
+        this.username = null;
+        this.phone = phone;
+        this.dob = null;
+    }
+
+
     public String getUsername() {
         return username;
     }

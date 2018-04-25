@@ -4,6 +4,7 @@ import com.example.christophergu.pg.data.Account;
 import com.example.christophergu.pg.data.Court;
 import com.example.christophergu.pg.data.Game;
 import com.example.christophergu.pg.data.QuitGame;
+import com.example.christophergu.pg.data.adapters.thing;
 
 import java.util.List;
 
@@ -16,6 +17,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface PGInterface {
+    @GET("games/game/accounts")
+    Call<List<Account>> getPlayers(@Query("gid") int gid);
+
     @GET("account")
     Call<List<Account>> getAccount(@Query("phone") String phone);
 
@@ -33,4 +37,6 @@ public interface PGInterface {
 
     @PATCH("games/game")
     Call<QuitGame> quitGame(@Body QuitGame body);
+
+
 }

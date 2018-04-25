@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.christophergu.pg.data.Court;
-import com.example.christophergu.pg.data.adaptors.CourtArrayAdapter;
+import com.example.christophergu.pg.data.adapters.CourtArrayAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

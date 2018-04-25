@@ -1,4 +1,4 @@
-package com.example.christophergu.pg.data.adaptors;
+package com.example.christophergu.pg.data.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
