@@ -20,7 +20,6 @@ import com.example.christophergu.pg.data.Game;
 import com.example.christophergu.pg.data.QuitGame;
 import com.example.christophergu.pg.data.adapters.AccountArrayAdapter;
 import com.example.christophergu.pg.data.adapters.GameArrayAdapter;
-import com.example.christophergu.pg.data.adapters.thing;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -85,12 +83,6 @@ public class MainActivity extends AppCompatActivity {
         service = retrofit.create(PGInterface.class);
         service2 = retrofit2.create(PGInterface.class);
         storeGameInfos();
-
-
-
-
-
-
 
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -149,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         phoneList = new ArrayList<String>();
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
         LayoutInflater inflater = getLayoutInflater();
-        final View infoView = inflater.inflate(R.layout.game_info, null);
+        final View infoView = inflater.inflate(R.layout.dialog_game_info, null);
         TextView tvDate = infoView.findViewById(R.id.tvDate);
         TextView tvTime = infoView.findViewById(R.id.tvTime);
         TextView tvDescription = infoView.findViewById(R.id.tvDescription);
@@ -162,9 +154,6 @@ public class MainActivity extends AppCompatActivity {
         //Player list of this game
         playerList = infoView.findViewById(R.id.lvGamePlayers);
         //retrievePlayers(game.getGid());
-
-
-
 
         accountArrayAdapter = new AccountArrayAdapter(getApplication(), R.layout.item_player_list, accountList);
         accountArrayAdapter.notifyDataSetChanged();
@@ -285,7 +274,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.print("Done");
     }
 
-
     private void storeGameInfos() {
         Call<List<Game>> model = service.getGames(phone);
         gameList = new ArrayList<Game>();
@@ -308,15 +296,6 @@ public class MainActivity extends AppCompatActivity {
                 System.out.print(t.getMessage());
             }
         });
-
-
-
-
-
-
-
-
-
 
     }
 
