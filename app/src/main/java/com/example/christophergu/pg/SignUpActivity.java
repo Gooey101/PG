@@ -1,5 +1,6 @@
 package com.example.christophergu.pg;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -72,6 +73,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     isCreated[0] = true;
                 }
+                returnToSignIn();
             }
 
             @Override
@@ -82,7 +84,13 @@ public class SignUpActivity extends AppCompatActivity {
         mPhoneNumber.getText().clear();
         mUserName.getText().clear();
         mDob.getText().clear();
-        if (isCreated[0])
-            Toast.makeText(this, "Account Created!", Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    private void returnToSignIn() {
+        Toast.makeText(this, "Account Created!", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, SignInActivity.class);
+        startActivity(i);
     }
 }

@@ -51,6 +51,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/circle" />
 
+            <TextView
+                android:id="@+id/tvLetter"
+                android:layout_width="88dp"
+                android:layout_height="104dp"
+                android:text="Y"
+                android:textAlignment="center"
+                android:textSize="80sp"
+                android:textColor="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/profilePic"
+                app:layout_constraintEnd_toEndOf="@+id/profilePic"
+                app:layout_constraintStart_toStartOf="@+id/profilePic"
+                app:layout_constraintTop_toTopOf="@+id/profilePic"
+                app:layout_constraintVertical_bias="0.409" />
+
             <LinearLayout
                 android:id="@+id/layout_buttons"
                 android:layout_width="match_parent"
@@ -75,6 +89,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_weight="0.5"
                     android:text="Feed"
+                    android:onClick="GameFeed"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -110,5 +125,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/layout_buttons"/>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
+
+
 
 </android.support.constraint.ConstraintLayout>

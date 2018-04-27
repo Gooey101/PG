@@ -15,10 +15,14 @@
     <string name="userPhone">userPhone</string>
     <string name="userDOB">userDOB</string>
     <string name="userInfo">userInfo</string>
+    <string name="age">age</string>
     <string name="next">next</string>
     <string name="passSport">passSport</string>
     <string name="passCID">passCID</string>
     <string name="quit">Quit Game</string>
     <string name="delete">Delete Game</string>
+    <string name="join">Join Game</string>
+    <string name="emergency">Emergency Contact</string>
+    <string name="remove">Remove Account</string>
 
 </resources>

@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.christophergu.pg.data.Game;
+import com.example.christophergu.pg.data.NewGame;
 
 import java.util.Calendar;
 
@@ -105,41 +106,65 @@ public class CreateGameActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.create_game:
-                // Create new Game
-                Game newGame = new Game(
-                    mPhone,
-                    mDescription.getText().toString(),
-                    mDate.getText().toString(),
-                    mStartTime.getText().toString(),
-                    mEndTime.getText().toString(),
-                    Integer.parseInt(mMinAge.getText().toString()),
-                    Integer.parseInt(mMaxAge.getText().toString()),
-                    Integer.parseInt(mSkillLevel.getText().toString()),
-                    Integer.parseInt(mCapacity.getText().toString()),
-                    mSport,
-                    mCid
-                );
-                Toast.makeText(this, newGame.toString(), Toast.LENGTH_SHORT).show();
+                //Check Conditions
+                int skill = Integer.parseInt(mSkillLevel.getText().toString());
 
-                // Request API to createGame
-                Call<Game> call = service.createGame(newGame);
-                call.enqueue(new Callback<Game>() {
-                    @Override
-                    public void onResponse(Call<Game> call, Response<Game> response) {
-                        if(response.isSuccessful()){
-                            System.out.println("Successful!");
+                if(skill < 1 || skill > 5)
+                    showErrorMessage(0);
+                else{
+
+                    // Create new Game
+                    NewGame newGame = new NewGame(
+                        mPhone,
+                        mDescription.getText().toString(),
+                        mDate.getText().toString(),
+                        mStartTime.getText().toString(),
+                        mEndTime.getText().toString(),
+                        Integer.parseInt(mMinAge.getText().toString()),
+                        Integer.parseInt(mMaxAge.getText().toString()),
+                        Integer.parseInt(mSkillLevel.getText().toString()),
+                        Integer.parseInt(mCapacity.getText().toString()),
+                        mSport,
+                        mCid
+                    );
+                    Toast.makeText(this, newGame.toString(), Toast.LENGTH_SHORT).show();
+
+                    // Request API to createGame
+                    Call<NewGame> call = service.createGame(newGame);
+                    call.enqueue(new Callback<NewGame>() {
+                        @Override
+                        public void onResponse(Call<NewGame> call, Response<NewGame> response) {
+                            returnToMain();
                         }
-                    }
-                    @Override
-                    public void onFailure(Call<Game> call, Throwable t) {
-                        System.out.print(t.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<NewGame> call, Throwable t) {
+                            showErrorMessage(1);
+
+                        }
+                    });
+                }
                 return true;
             default:
                 // The user's action was not recognized. Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showErrorMessage(int num) {
+        switch(num){
+            case 0:
+                Toast.makeText(this, "Skill level has to be between 1 and 5~", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                Toast.makeText(this, "Failed... Something went wrong...", Toast.LENGTH_SHORT).show();
+                break;
+
+        }
+    }
+
+    private void returnToMain() {
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
     public void selectDate(View view) {
