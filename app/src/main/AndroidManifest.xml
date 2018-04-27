@@ -24,6 +24,8 @@
         <activity android:name=".CourtListActivity" android:parentActivityName=".SportListActivity"/>
         <activity android:name=".SportListActivity" android:parentActivityName=".MainActivity"/>
         <activity android:name=".CreateGameActivity" android:parentActivityName=".CourtListActivity"/>
+        <activity android:name=".GameFeedActivity" android:parentActivityName=".MainActivity"/>
+
     </application>
 
 </manifest>

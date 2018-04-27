@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,12 +43,18 @@ public class SignInActivity extends Activity {
         service = retrofit.create(PGInterface.class);
     }
 
+
+
+
+
     public void enterPhone(View view) {
 
         // Default variables
         final String[] phoneNum = {"0001112222"};
         final String[] UserName = {"default"};
         final String[] DOB = {"01-01-2000"};
+        final boolean[] exists = {false};
+        final int[] age = {0};
 
         // Check phone number
         String input = mPhoneNumber.getText().toString();
@@ -69,6 +77,7 @@ public class SignInActivity extends Activity {
             model.enqueue(new Callback<List<Account>>() {
                 @Override
                 public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
+                    exists[0] = true;
                     for (Account account: response.body()) {
                         System.out.println(account.getPhone().toString());
                     }
@@ -78,6 +87,7 @@ public class SignInActivity extends Activity {
                         phoneNum[0] = response.body().get(0).getPhone();
                         UserName[0] = response.body().get(0).getUsername();
                         DOB[0] = response.body().get(0).getDob();
+                        age[0] = response.body().get(0).getAge();
 
                         // Create SharedPreferences with Account information
                         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(
@@ -86,9 +96,11 @@ public class SignInActivity extends Activity {
                         editor.putString(getString(R.string.userName), UserName[0]);
                         editor.putString(getString(R.string.userPhone), phoneNum[0]);
                         editor.putString(getString(R.string.userDOB), DOB[0]);
+                        editor.putInt(getString(R.string.age), age[0]);
                         editor.apply();
 
                         // Go to MainActivity
+
                         startActivity(login);
                     } else {
                         Toast.makeText(getApplicationContext(), "This number has not been registered yet. Please sign up~",
@@ -102,8 +114,11 @@ public class SignInActivity extends Activity {
                 @Override
                 public void onFailure(Call<List<Account>> call, Throwable t) {
                     System.out.print(t.getMessage());
+
                 }
+
             });
+
         }
     }
 }

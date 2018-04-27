@@ -10,13 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.christophergu.pg.data.Account;
+import com.example.christophergu.pg.data.DeleteGame;
 import com.example.christophergu.pg.data.Game;
+import com.example.christophergu.pg.data.NewGame;
 import com.example.christophergu.pg.data.QuitGame;
 import com.example.christophergu.pg.data.adapters.AccountArrayAdapter;
 import com.example.christophergu.pg.data.adapters.GameArrayAdapter;
@@ -33,6 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mUsername;
+    private TextView mLetter;
     private ListView mListView;
     private ListView playerList;
     private ArrayList<Game> gameList;
@@ -55,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set local attributes to corresponding views
         mUsername = findViewById(R.id.username);
+        mLetter = findViewById(R.id.tvLetter);
         mListView = findViewById(R.id.lvUserGames);
         gameAccounts = new ArrayList<ArrayList<Account>>();
 
@@ -70,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set account values on Profile
         mUsername.setText(username);
+        mLetter.setText(username.substring(0,1).toUpperCase());
 
         gameList = new ArrayList<Game>();
         Retrofit retrofit= new Retrofit.Builder()
@@ -101,6 +110,51 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.emergency:
+                //Check Conditions
+
+
+                return true;
+            case R.id.remove:
+                Call<String> call = service.removeAccount(phone);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        returnToSignIn();
+                    }
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                    }
+                });
+                return true;
+            default:
+                // The user's action was not recognized. Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void returnToSignIn() {
+        Intent i = new Intent(this, SignInActivity.class);
+        startActivity(i);
     }
 
 
@@ -162,12 +216,24 @@ public class MainActivity extends AppCompatActivity {
         playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Account player = accountList.get(position);
+                String phone = player.getPhone();
+                String username = player.getUsername();
+                String dob = player.getDob();
+                int age = player.getAge();
+
+
+                Toast.makeText(getApplicationContext(),
+                        "Username: "+username+";\n"
+                        +"Phone: "+phone+";\n"
+                        +"Date of birth: "+dob,
+                        Toast.LENGTH_LONG).show();
             }
         });
 
 
         builder.setView(infoView);
-        if( !phone.equals(game.getPhone())) {
+        if( !(phone.equals(game.getCreator()))) {
             builder.setPositiveButton(R.string.quit, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -178,6 +244,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<QuitGame> call, Response<QuitGame> response) {
                             gameArrayAdapter.notifyDataSetChanged();
+                            Toast.makeText(getApplicationContext(),
+                                    "You quit the game!",
+                                    Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -198,18 +267,22 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    QuitGame quit = new QuitGame(0, game.getGid(), phone);
-                    Call<QuitGame> model = service.quitGame(quit);
+                    DeleteGame delete = new DeleteGame(phone);
+                    Call<DeleteGame> model = service.deleteGame(delete);
                     gameArrayAdapter.notifyDataSetChanged();
-                    model.enqueue(new Callback<QuitGame>() {
+                    model.enqueue(new Callback<DeleteGame>() {
                         @Override
-                        public void onResponse(Call<QuitGame> call, Response<QuitGame> response) {
+                        public void onResponse(Call<DeleteGame> call, Response<DeleteGame> response) {
+
                             gameArrayAdapter.notifyDataSetChanged();
+                            Toast.makeText(getApplicationContext(),
+                                    "Game deleted!",
+                                    Toast.LENGTH_SHORT).show();
 
                         }
 
                         @Override
-                        public void onFailure(Call<QuitGame> call, Throwable t) {
+                        public void onFailure(Call<DeleteGame> call, Throwable t) {
                             gameArrayAdapter.notifyDataSetChanged();
 
                         }
@@ -302,5 +375,10 @@ public class MainActivity extends AppCompatActivity {
     public void createGame(View view) {
         Intent intent = new Intent(this, SportListActivity.class);
         startActivity(intent);
+    }
+
+    public void GameFeed(View view) {
+        Intent i = new Intent(this, GameFeedActivity.class);
+        startActivity(i);
     }
 }

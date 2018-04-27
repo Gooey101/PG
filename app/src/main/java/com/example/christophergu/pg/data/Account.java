@@ -5,6 +5,18 @@ public class Account {
     private String username;
     private String phone;
     private String dob;
+    private int age;
+
+    public Account(){
+
+    }
+
+    public Account(String phone, String username, String dob, int age){
+        this.username = username;
+        this.phone = phone;
+        this.dob = dob;
+        this.age = age;
+    }
 
     public Account(String phone, String username, String dob){
         this.username = username;
@@ -41,5 +53,13 @@ public class Account {
 
     public void setDob(String dob) {
         this.dob = dob;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }
