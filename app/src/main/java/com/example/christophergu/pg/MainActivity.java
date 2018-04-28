@@ -167,6 +167,9 @@ public class MainActivity extends AppCompatActivity {
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
+                        Toast.makeText(getApplicationContext(),
+                                "Account has been removed!",
+                                Toast.LENGTH_SHORT).show();
                         returnToSignIn();
                     }
                     @Override
