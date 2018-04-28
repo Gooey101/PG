@@ -144,10 +144,7 @@ public class SignUpActivity extends AppCompatActivity {
         callEmergency.enqueue(new Callback<EmergencyContact>() {
             @Override
             public void onResponse(Call<EmergencyContact> call, Response<EmergencyContact> response) {
-                mPhoneNumber.getText().clear();
-                mUserName.getText().clear();
-                mDob.getText().clear();
-                mEmergencyPhone.getText().clear();
+
                 returnToSignIn();
             }
 
@@ -161,12 +158,30 @@ public class SignUpActivity extends AppCompatActivity {
 
         int tid = (int) spinner.getSelectedItemId();
         System.out.println("TID IS :  "+tid);
-        joinTeam join = new joinTeam(mPhoneNumber.getText().toString(), tid+1);
+        switch(spinner.getSelectedItem().toString()){
+            case "Google":
+                tid=1;
+                break;
+            case "Apple":
+                tid=2;
+                break;
+            case "Amazon":
+                tid=3;
+                break;
+            case "Facebook":
+                tid=4;
+                break;
+
+        }
+        joinTeam join = new joinTeam(mPhoneNumber.getText().toString(), tid);
         Call<joinTeam> model = service.joinTeam(join);
         model.enqueue(new Callback<joinTeam>() {
             @Override
             public void onResponse(Call<joinTeam> call, Response<joinTeam> response) {
-
+                mPhoneNumber.getText().clear();
+                mUserName.getText().clear();
+                mDob.getText().clear();
+                mEmergencyPhone.getText().clear();
             }
 
             @Override
