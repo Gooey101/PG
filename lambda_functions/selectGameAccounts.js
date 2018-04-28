@@ -10,10 +10,10 @@ exports.handler = (event, context, callback) => {
     // Freeze process after callback is called
     context.callbackWaitsForEmptyEventLoop = false;
 
-    // Select specific row from "games" table
+    // Select all phone numbers associated with a game from "joins" table
     var phones = "";
-    var sql1 = "SELECT phone FROM joins WHERE gid = " + event.gid;
-    db.query(sql1, function(error, rows, fields) {
+    var sql = "SELECT phone FROM joins WHERE gid = " + event.gid;
+    db.query(sql, function(error, rows, fields) {
         phones += "(";
         for (var i = 0; i < rows.length; i++) {
             phones += rows[i]["phone"];
@@ -22,8 +22,8 @@ exports.handler = (event, context, callback) => {
             }
         }
         phones += ")";
-        console.log("gids", phones);
         
+        // Select all rows that are in phones from "accounts" table
         var sql2 = "SELECT * FROM accounts WHERE phone IN " + phones;
         db.query(sql2, function(error, rows, fields) {
             callback(error, rows);

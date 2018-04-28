@@ -10,9 +10,10 @@ exports.handler = (event, context, callback) => {
     // Freeze process after callback is called
     context.callbackWaitsForEmptyEventLoop = false;
 
-    // Select specific row from "accounts" table
-    var sql = "INSERT INTO emergencyContacts VALUES('" + event.body.phone + "', '" + event.body.ecPhone + "')";
+    // Insert an emergency contact into "emergencyContacts" table
+    var sql = "INSERT INTO emergencyContacts VALUES('" + event.body.phone + "', '" +
+        event.body.fName + "', '" + event.body.relationship + "', '" + event.body.ecPhone + "')";
     db.query(sql, function(error, rows, fields) {
-        callback(error, "Success");
+        callback(null);
     });
 };

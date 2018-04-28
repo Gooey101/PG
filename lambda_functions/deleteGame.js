@@ -11,12 +11,12 @@ exports.handler = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
 
     // Delete rows from "holds", "joins", and "games" tables
-    var sql1 = "DELETE FROM holds WHERE gid = " + event.body.gid;
-    db.query(sql1);
+    var sql = "DELETE FROM holds WHERE gid = " + event.body.gid;
+    db.query(sql);
     var sql2 = "DELETE FROM joins WHERE gid = " + event.body.gid;
     db.query(sql2);
     var sql3 = "DELETE FROM games WHERE gid = " + event.body.gid;
     db.query(sql3, function(error, rows, fields) {
-        callback(error, "Success");
+        callback(null);
     });
 };

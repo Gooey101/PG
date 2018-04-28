@@ -9,12 +9,9 @@ var db = mysql.createConnection({
 exports.handler = (event, context, callback) => {
     // Freeze process after callback is called
     context.callbackWaitsForEmptyEventLoop = false;
-
-    // Update an emergency contact from "emergencyContacts" table
-    var sql = "UPDATE emergencyContacts SET ecPhone = '" + event.body.ecPhone +
-        "', fName = '" + event.body.fName + "', relationship = '" + event.body.relationship +
-        "' WHERE phone = " + event.body.phone;
-    db.query(sql, function(error, rows, fields) {
-        callback(null);
+    
+    // Select all rows from "teams" table
+    db.query('SELECT * FROM teams', function(error, rows, fields) {
+        callback(null, rows);
     });
 };

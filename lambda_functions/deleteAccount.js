@@ -12,8 +12,8 @@ exports.handler = (event, context, callback) => {
 
     // Select all account gid's from "joins" table
     var gids = "";
-    var sql1 = "SELECT gid FROM joins WHERE phone = " + event.phone;
-    db.query(sql1, function(error, rows, fields) {
+    var sql = "SELECT gid FROM joins WHERE phone = " + event.phone;
+    db.query(sql, function(error, rows, fields) {
         gids += "(";
         for (var i = 0; i < rows.length; i++) {
             gids += rows[i]["gid"];
@@ -22,20 +22,23 @@ exports.handler = (event, context, callback) => {
             }
         }
         gids += ")";
-        console.log("gids", gids);
         
-        // Update attendees of each game joined by account
+        // Update attendees of each account game
         var sql2 = "UPDATE games SET attendees = attendees - 1 WHERE gid IN " + gids;
         db.query(sql2);
     });
     
     // Delete rows from "joins" table
-    var sql4 = "DELETE FROM joins WHERE phone = " + event.phone;
+    var sql3 = "DELETE FROM joins WHERE phone = " + event.phone;
+    db.query(sql3);
+
+    // Delete row from "members" table
+    var sql4 = "DELETE FROM members WHERE phone = " + event.phone;
     db.query(sql4);
 
-    // Delete account row from "accounts" table
+    // Delete row from "accounts" table
     var sql5 = "DELETE FROM accounts WHERE phone = " + event.phone;
     db.query(sql5, function(error, rows, fields) {
-        callback(error, "Success");
+        callback(null);
     });
 };

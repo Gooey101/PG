@@ -13,6 +13,6 @@ exports.handler = (event, context, callback) => {
     // Select all games of a specific account from the "games" table
     var sql = "SELECT * FROM games WHERE EXISTS (SELECT * FROM joins WHERE games.gid = joins.gid AND phone = '" + event.phone + "')";
     db.query(sql, function(error, rows, fields) {
-        callback(error, rows);
+        callback(null, rows);
     });
 };

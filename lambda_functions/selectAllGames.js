@@ -10,9 +10,11 @@ exports.handler = (event, context, callback) => {
     // Freeze process after callback is called
     context.callbackWaitsForEmptyEventLoop = false;
     
-    // Select all rows from "games" table
-    var sql = "SELECT * FROM games WHERE attendees < capacity AND gid NOT IN (SELECT gid FROM joins WHERE joins.phone = " + event.body.phone + ")";
+    // Select all games that an account hasn't joined and still available
+    // from "games" and "joins" tables
+    var sql = "SELECT * FROM games WHERE attendees < capacity AND gid NOT IN " +
+    "(SELECT gid FROM joins WHERE joins.phone = " + event.body.phone + ")";
     db.query(sql, function(error, rows, fields) {
-        callback(error, rows);
+        callback(null, rows);
     });
 };

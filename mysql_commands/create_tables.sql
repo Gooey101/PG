@@ -1,0 +1,78 @@
+-- CREATE TABLE accounts (phone CHAR(10) PRIMARY KEY,
+-- username VARCHAR(25) UNIQUE NOT NULL,
+-- dob DATE NOT NULL);-- 
+-- 
+-- CREATE TABLE emergencyContacts(phone CHAR(10),
+-- fName VARCHAR(25) NOT NULL,
+-- relationship VARCHAR(25) NOT NULL,
+-- ecPhone CHAR(10) NOT NULL,
+-- PRIMARY KEY (phone, fName),
+-- FOREIGN KEY (phone) REFERENCES accounts(phone));
+-- 
+-- CREATE TABLE teams(tid INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+-- tName VARCHAR(25) UNIQUE NOT NULL,
+-- description VARCHAR(140) NOT NULL,
+-- numMembers INT NOT NULL DEFAULT 0);
+-- 
+-- CREATE TABLE members(phone CHAR(10),
+-- tid INT UNSIGNED,
+-- PRIMARY KEY (phone, tid),
+-- FOREIGN KEY (phone) REFERENCES accounts(phone),
+-- FOREIGN KEY (tid) REFERENCES teams(tid));
+--
+-- CREATE TABLE games (gid INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+-- sport VARCHAR(25) NOT NULL,
+-- description VARCHAR(140) NOT NULL,
+-- gameDate DATE NOT NULL,
+-- startTime TIME NOT NULL,
+-- endTime TIME NOT NULL,
+-- minAge INT,
+-- maxAge INT,
+-- minSkillLevel INT,
+-- capacity INT NOT NULL,
+-- attendees INT NOT NULL DEFAULT 1,
+-- filled BIT(1) NOT NULL DEFAULT 0,
+-- creator CHAR(10) NOT NULL);
+-- 
+-- CREATE TABLE joins (phone CHAR(10),
+-- gid INT UNSIGNED,
+-- PRIMARY KEY (phone, gid),
+-- FOREIGN KEY (phone) REFERENCES accounts(phone),
+-- FOREIGN KEY (gid) REFERENCES games(gid));
+-- 
+-- CREATE TABLE courts (cid INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+-- address VARCHAR(140) NOT NULL,
+-- public BIT(1) NOT NULL,
+-- outside BIT(1) NOT NULL,
+-- openTime TIME NOT NULL,
+-- closeTime TIME NOT NULL);
+-- 
+-- CREATE TABLE holds (cid INT UNSIGNED,
+-- gid INT UNSIGNED,
+-- PRIMARY KEY (cid, gid),
+-- FOREIGN KEY (cid) REFERENCES courts(cid),
+-- FOREIGN KEY (gid) REFERENCES games(gid));
+-- 
+-- CREATE TABLE pools (cid INT UNSIGNED,
+-- numLanes INT NOT NULL,
+-- PRIMARY KEY (cid),
+-- FOREIGN KEY (cid) REFERENCES courts(cid));
+-- 
+-- CREATE TABLE tennisCourts (cid INT UNSIGNED,
+-- numNets INT NOT NULL,
+-- PRIMARY KEY (cid),
+-- FOREIGN KEY (cid) REFERENCES courts(cid));
+-- 
+-- CREATE TABLE basketballCourts (cid INT UNSIGNED,
+-- numHoops INT NOT NULL,
+-- PRIMARY KEY (cid),
+-- FOREIGN KEY (cid) REFERENCES courts(cid));
+-- 
+-- CREATE TABLE soccerFields (cid INT UNSIGNED,
+-- grass INT NOT NULL,
+-- PRIMARY KEY (cid),
+-- FOREIGN KEY (cid) REFERENCES courts(cid));
+--
+-- SET FOREIGN_KEY_CHECKS = 0;
+-- DROP TABLE members;
+-- SET FOREIGN_KEY_CHECKS = 1;

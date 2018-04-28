@@ -15,6 +15,6 @@ exports.handler = (event, context, callback) => {
         "courts.closeTime, tennisCourts.numNets FROM courts, tennisCourts WHERE EXISTS " +
         "(SELECT * FROM tennisCourts WHERE courts.cid = tennisCourts.cid)";
     db.query(sql, function(error, rows, fields) {
-        callback(error, rows);
+        callback(null, rows);
     });
 };

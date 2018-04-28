@@ -12,20 +12,25 @@ exports.handler = (event, context, callback) => {
 
     // Select specific row from "accounts" table
     var sql = "SELECT * FROM accounts WHERE phone = " + event.phone;
-    db.query(sql, function(error, rows1, fields) {
-        if (rows1.length > 0) {
-            var str = rows1[0]["dob"];
+    db.query(sql, function(error, rows, fields) {
+
+        // If account exists
+        if (rows.length > 0) {
+            var str = rows[0]["dob"];
             var year = str.getUTCFullYear();
             var month = str.getUTCMonth() + 1;
             var day = str.getUTCDate();
             var dob = year + "-" + month + "-" + day;
             var sql2 = "SELECT DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT('" + dob + "', '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT('" + dob + "', '00-%m-%d')) AS age";
+            
+            // Calculate age of birthdate
             db.query(sql2, function(error, rows2, fields) {
-                rows1[0]["age"] = parseInt(rows2[0]["age"]);
-                callback(null, rows1);
+                rows[0]["age"] = parseInt(rows2[0]["age"], 10);
+                callback(null, rows);
             });
         } else {
-            callback(null, rows1);
+            // If account doesn't exist, return empty array
+            callback(null, rows);
         }
     });
 };

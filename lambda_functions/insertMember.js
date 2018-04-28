@@ -9,12 +9,14 @@ var db = mysql.createConnection({
 exports.handler = (event, context, callback) => {
     // Freeze process after callback is called
     context.callbackWaitsForEmptyEventLoop = false;
+    
+    // Insert row into "members" table
+    var sql = "INSERT INTO members VALUES ('" + event.body.phone + "', " + event.body.tid + ")";
+    db.query(sql);
 
-    // Update an emergency contact from "emergencyContacts" table
-    var sql = "UPDATE emergencyContacts SET ecPhone = '" + event.body.ecPhone +
-        "', fName = '" + event.body.fName + "', relationship = '" + event.body.relationship +
-        "' WHERE phone = " + event.body.phone;
-    db.query(sql, function(error, rows, fields) {
+    // Update a team's numMembers from "teams" table
+    var sql2 = "UPDATE teams SET numMembers = numMembers + 1 WHERE tid = " + event.body.tid;
+    db.query(sql2, function(error, rows, fields) {
         callback(null);
     });
 };

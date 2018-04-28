@@ -11,9 +11,10 @@ exports.handler = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
 
     // Select specific row from "games" table
-    var sql = "SELECT games.gid, games.sport, games.description, games.gameDate, games.startTime, games.endTime, games.attendees, games.filled, courts.address " +
-    "FROM games, courts WHERE EXISTS (SELECT * FROM holds WHERE games.gid = holds.gid AND holds.cid = courts.cid AND gid = " + event.gid + ")";
+    var sql = "SELECT games.gid, games.sport, games.description, games.gameDate, games.startTime, " +
+    "games.endTime, games.attendees, games.filled, courts.address FROM games, courts WHERE EXISTS " +
+    "(SELECT * FROM holds WHERE games.gid = holds.gid AND holds.cid = courts.cid AND gid = " + event.gid + ")";
     db.query(sql, function(error, rows, fields) {
-        callback(error,rows);
+        callback(null, rows);
     });
 };

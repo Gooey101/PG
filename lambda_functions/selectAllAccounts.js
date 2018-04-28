@@ -12,6 +12,6 @@ exports.handler = (event, context, callback) => {
     
     // Select all rows from "accounts" table
     db.query('SELECT * FROM accounts', function(error, rows, fields) {
-        callback(error, rows);
+        callback(null, rows);
     });
 };

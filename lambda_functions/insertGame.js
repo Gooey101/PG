@@ -11,12 +11,12 @@ exports.handler = (event, context, callback) => {
     context.callbackWaitsForEmptyEventLoop = false;
 
     // Insert row into "games" table
-    var sql1 = "INSERT INTO games (sport, description, gameDate, startTime, endTime, minAge, maxAge, minSkillLevel, capacity, creator) VALUES ('" +
+    var sql = "INSERT INTO games (sport, description, gameDate, startTime, endTime, minAge, maxAge, minSkillLevel, capacity, creator) VALUES ('" +
         event.body.sport + "', '" + event.body.description + "', '" + event.body.gameDate + "', '" +
         event.body.startTime + "', '" + event.body.endTime + "', " + event.body.minAge + ", " +
         event.body.maxAge + ", " + event.body.minSkillLevel + ", " + event.body.capacity + ", '" +
         event.body.phone + "')";
-    db.query(sql1);
+    db.query(sql);
 
     // Select ID of inserted row
     var sql2 = "(SELECT LAST_INSERT_ID())";
@@ -30,7 +30,7 @@ exports.handler = (event, context, callback) => {
         // Insert row into "joins" table
         var sql4 = "INSERT INTO joins VALUES('" + event.body.phone + "', '" + gid + "')";
         db.query(sql4, function(error, rows, fields) {
-            callback(error, "Success");
+            callback(null);
         });
     });
 };
