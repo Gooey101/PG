@@ -19,7 +19,7 @@
 
     <string name="googleDescription">#basic</string>
     <string name="appleDescription">rich guys</string>
-    <string name="amazonDescription">the people's choice</string>
+    <string name="amazonDescription">the people\'s choice</string>
     <string name="facebookDescription">everyone hates Facebook</string>
 
 
