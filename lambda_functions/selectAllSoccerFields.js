@@ -12,8 +12,7 @@ exports.handler = (event, context, callback) => {
     
     // Select all soccer fields from the "courts" table
     var sql = "SELECT courts.cid, courts.address, courts.public, courts.outside, courts.openTime, " +
-        "courts.closeTime, soccerFields.grass FROM courts, soccerFields WHERE EXISTS " +
-        "(SELECT * FROM soccerFields WHERE courts.cid = soccerFields.cid)";
+        "courts.closeTime, soccerFields.grass FROM courts, soccerFields WHERE courts.cid = soccerFields.cid";
     db.query(sql, function(error, rows, fields) {
         callback(null, rows);
     });

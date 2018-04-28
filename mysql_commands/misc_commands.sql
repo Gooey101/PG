@@ -45,7 +45,7 @@
 -- INSERT INTO soccerFields VALUES (10, 1);
 
 -- SELECT courts.cid, courts.address, courts.public, courts.outside, courts.openTime, courts.closeTime, tennisCourts.numNets
--- FROM courts, tennisCourts WHERE EXISTS (SELECT * FROM tennisCourts WHERE courts.cid = tennisCourts.cid);
+-- FROM courts, tennisCourts WHERE courts.cid = tennisCourts.cid;
 -- 
 -- SELECT games.gid, games.sport, games.description, games.gameDate, games.startTime, games.endTime, games.attendees, games.filled, courts.address
 -- FROM games, courts WHERE EXISTS (SELECT * FROM holds WHERE games.gid = holds.gid AND holds.cid = courts.cid AND gid = 2)
