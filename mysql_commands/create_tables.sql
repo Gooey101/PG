@@ -74,5 +74,5 @@
 -- FOREIGN KEY (cid) REFERENCES courts(cid));
 --
 -- SET FOREIGN_KEY_CHECKS = 0;
--- DROP TABLE members;
+-- TRUNCATE TABLE accounts;
 -- SET FOREIGN_KEY_CHECKS = 1;
