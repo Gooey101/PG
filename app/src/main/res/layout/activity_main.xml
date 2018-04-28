@@ -32,7 +32,7 @@
                 android:layout_marginStart="8dp"
                 android:hint="Null"
                 android:textAlignment="center"
-                android:textSize="24sp"
+                android:textSize="30sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,8 +57,8 @@
                 android:layout_height="104dp"
                 android:text="Y"
                 android:textAlignment="center"
-                android:textSize="80sp"
                 android:textColor="@android:color/white"
+                android:textSize="80sp"
                 app:layout_constraintBottom_toBottomOf="@+id/profilePic"
                 app:layout_constraintEnd_toEndOf="@+id/profilePic"
                 app:layout_constraintStart_toStartOf="@+id/profilePic"
@@ -69,7 +69,7 @@
                 android:id="@+id/layout_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="80dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
@@ -88,8 +88,8 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_weight="0.5"
-                    android:text="Feed"
                     android:onClick="GameFeed"
+                    android:text="Feed"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -111,21 +111,49 @@
                     app:layout_constraintVertical_bias="0.0" />
             </LinearLayout>
 
+
             <ListView
                 android:id="@+id/lvUserGames"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="92dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/layout_buttons"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.483"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/username"
-                app:layout_constraintBottom_toTopOf="@+id/layout_buttons"/>
+                app:layout_constraintTop_toBottomOf="@+id/tvUserTeam" />
+
+            <TextView
+                android:id="@+id/tvUserTeam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="No Team"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Team Stat"
+                android:onClick="checkTeamStats"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_buttons"
+                />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
-
 
 
 </android.support.constraint.ConstraintLayout>

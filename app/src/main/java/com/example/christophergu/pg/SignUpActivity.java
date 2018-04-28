@@ -4,11 +4,17 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.christophergu.pg.data.Account;
+import com.example.christophergu.pg.data.EmergencyContact;
+import com.example.christophergu.pg.data.joinTeam;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,6 +30,11 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText mPhoneNumber;
     private EditText mUserName;
     private EditText mDob;
+    private EditText mEmergencyPhone;
+    private EditText mEmergencyName;
+    private EditText mEmergencyRelationship;
+    private TextView tvTeamDescription;
+    private Spinner spinner;
     private Button mSignUp;
     public static final String regexStr = "^[0-9\\-]*$";
 
@@ -38,7 +49,44 @@ public class SignUpActivity extends AppCompatActivity {
         mPhoneNumber = findViewById(R.id.etPhone);
         mUserName = findViewById(R.id.etUsername);
         mDob = findViewById(R.id.etDob);
+        mEmergencyPhone = findViewById(R.id.etEmergencyPhone);
+        mEmergencyName = findViewById(R.id.etEmergencyName);
+        mEmergencyRelationship = findViewById(R.id.etEmergencyRelationship);
         mSignUp = findViewById(R.id.btnSignUp);
+        spinner = (Spinner) findViewById(R.id.spTeams);
+        tvTeamDescription =findViewById(R.id.tvTeamDescription);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.teamPick, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (spinner.getSelectedItem().toString()){
+                    case "Google":
+                        tvTeamDescription.setText(R.string.googleDescription);
+                        break;
+                    case "Apple":
+                        tvTeamDescription.setText(R.string.appleDescription);
+                        break;
+                    case "Amazon":
+                        tvTeamDescription.setText(R.string.amazonDescription);
+                        break;
+                    case "Facebook":
+                        tvTeamDescription.setText(R.string.facebookDescription);
+                        break;
+                    default:
+                        tvTeamDescription.setText("No information");
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Create retrofit instance
         Retrofit retrofit= new Retrofit.Builder()
@@ -59,11 +107,17 @@ public class SignUpActivity extends AppCompatActivity {
         if (!mPhoneNumber.getText().toString().matches(regexStr) ||
                 mPhoneNumber.getText().length() < 10 ||
                 mUserName.getText().length() == 0 ||
-                mDob.getText().length() == 0) {
+                mDob.getText().length() == 0 ||
+                mEmergencyPhone.getText().length() == 0 ||
+                mEmergencyName.getText().length() == 0 ||
+                mEmergencyRelationship.getText().length() == 0) {
             Toast.makeText(this, "Please enter valid information!", Toast.LENGTH_SHORT).show();
             return;
         }
 
+
+
+        String item = spinner.getSelectedItem().toString();
         // Request API to create Account
         Account newAccount = new Account(mPhoneNumber.getText().toString(), mUserName.getText().toString(), mDob.getText().toString());
         Call<Account> call = service.createAccount(newAccount);
@@ -73,17 +127,55 @@ public class SignUpActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     isCreated[0] = true;
                 }
-                returnToSignIn();
             }
 
             @Override
             public void onFailure(Call<Account> call, Throwable t) {}
         });
 
-        // Clear UI Fields
-        mPhoneNumber.getText().clear();
-        mUserName.getText().clear();
-        mDob.getText().clear();
+
+
+        String ecName = mEmergencyName.getText().toString();
+        String ecPhone = mEmergencyPhone.getText().toString();
+        String ecRelationship = mEmergencyRelationship.getText().toString();
+
+        EmergencyContact newContact = new EmergencyContact(mPhoneNumber.getText().toString(), ecName, ecRelationship, ecPhone);
+        Call<EmergencyContact> callEmergency = service.createEmergencyContact(newContact);
+        callEmergency.enqueue(new Callback<EmergencyContact>() {
+            @Override
+            public void onResponse(Call<EmergencyContact> call, Response<EmergencyContact> response) {
+                mPhoneNumber.getText().clear();
+                mUserName.getText().clear();
+                mDob.getText().clear();
+                mEmergencyPhone.getText().clear();
+                returnToSignIn();
+            }
+
+            @Override
+            public void onFailure(Call<EmergencyContact> call, Throwable t) {
+
+            }
+        });
+
+
+
+        int tid = (int) spinner.getSelectedItemId();
+        System.out.println("TID IS :  "+tid);
+        joinTeam join = new joinTeam(mPhoneNumber.getText().toString(), tid+1);
+        Call<joinTeam> model = service.joinTeam(join);
+        model.enqueue(new Callback<joinTeam>() {
+            @Override
+            public void onResponse(Call<joinTeam> call, Response<joinTeam> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<joinTeam> call, Throwable t) {
+
+            }
+        });
+
+
 
 
     }

@@ -9,6 +9,21 @@
         <item>5</item>
     </string-array>
 
+
+    <string-array name="teamPick">
+        <item>Google</item>
+        <item>Apple</item>
+        <item>Amazon</item>
+        <item>Facebook</item>
+    </string-array>
+
+    <string name="googleDescription">#basic</string>
+    <string name="appleDescription">rich guys</string>
+    <string name="amazonDescription">the people's choice</string>
+    <string name="facebookDescription">everyone hates Facebook</string>
+
+
+
     <string name="create_game">Create Game</string>
     <string name="success">Success!</string>
     <string name="userName">userName</string>
@@ -24,5 +39,7 @@
     <string name="join">Join Game</string>
     <string name="emergency">Emergency Contact</string>
     <string name="remove">Remove Account</string>
+    <string name="cancel">Cancel</string>
+    <string name="update">Update</string>
 
 </resources>

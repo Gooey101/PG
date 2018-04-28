@@ -5,10 +5,13 @@ import android.database.Observable;
 import com.example.christophergu.pg.data.Account;
 import com.example.christophergu.pg.data.Court;
 import com.example.christophergu.pg.data.DeleteGame;
+import com.example.christophergu.pg.data.EmergencyContact;
 import com.example.christophergu.pg.data.Game;
 import com.example.christophergu.pg.data.NewGame;
 import com.example.christophergu.pg.data.QuitGame;
+import com.example.christophergu.pg.data.Team;
 import com.example.christophergu.pg.data.adapters.thing;
+import com.example.christophergu.pg.data.joinTeam;
 
 import java.util.List;
 
@@ -55,6 +58,26 @@ public interface PGInterface {
 
     @DELETE("account")
     Call<String> removeAccount(@Query("phone") String phone);
+
+
+    @POST("account/emergency-contact")
+    Call<EmergencyContact> createEmergencyContact(@Body EmergencyContact contact);
+
+    @GET("account/emergency-contact")
+    Call<List<EmergencyContact>> getContact(@Query("phone") String phone);
+
+    @PATCH("account/emergency-contact")
+    Call<EmergencyContact> editContact(@Body EmergencyContact contact);
+
+
+    @POST("teams/members")
+    Call<joinTeam> joinTeam(@Body joinTeam join);
+
+    @GET("teams/members")
+    Call<List<Team>> getTeam(@Query("phone") String phone);
+
+    @GET("teams")
+    Call<List<Team>> getAllTeams(@Query("aggregate") int i);
     
 
 }

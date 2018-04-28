@@ -15,15 +15,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.christophergu.pg.data.Account;
 import com.example.christophergu.pg.data.DeleteGame;
+import com.example.christophergu.pg.data.EmergencyContact;
 import com.example.christophergu.pg.data.Game;
 import com.example.christophergu.pg.data.NewGame;
 import com.example.christophergu.pg.data.QuitGame;
+import com.example.christophergu.pg.data.Team;
 import com.example.christophergu.pg.data.adapters.AccountArrayAdapter;
 import com.example.christophergu.pg.data.adapters.GameArrayAdapter;
 
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mUsername;
     private TextView mLetter;
+    private TextView mUserTeam;
     private ListView mListView;
     private ListView playerList;
     private ArrayList<Game> gameList;
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         mLetter = findViewById(R.id.tvLetter);
         mListView = findViewById(R.id.lvUserGames);
         gameAccounts = new ArrayList<ArrayList<Account>>();
-
+        mUserTeam = findViewById(R.id.tvUserTeam);
 
 
         // Retrieve Account information from SharedPreferences file
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         phone = sharedPref.getString(getString(R.string.userPhone), null);
         username = sharedPref.getString(getString(R.string.userName), null);
         dob = sharedPref.getString(getString(R.string.userDOB), null).substring(0,10);
+
+
 
 
         // Set account values on Profile
@@ -91,6 +97,28 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         service = retrofit.create(PGInterface.class);
         service2 = retrofit2.create(PGInterface.class);
+
+
+        Call<List<Team>> call = service.getTeam(phone);
+        call.enqueue(new Callback<List<Team>>() {
+            @Override
+            public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
+                if(response.body().size() > 0)
+                    mUserTeam.setText(response.body().get(0).gettName());
+            }
+
+            @Override
+            public void onFailure(Call<List<Team>> call, Throwable t) {
+
+            }
+        });
+
+
+
+
+
+
+
         storeGameInfos();
 
 
@@ -131,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.emergency:
                 //Check Conditions
-
+                retrieveEmergencyData();
 
                 return true;
             case R.id.remove:
@@ -151,6 +179,26 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void retrieveEmergencyData() {
+        Call<List<EmergencyContact>> model = service.getContact(phone);
+        model.enqueue(new Callback<List<EmergencyContact>>() {
+            @Override
+            public void onResponse(Call<List<EmergencyContact>> call, Response<List<EmergencyContact>> response) {
+                if(response.body().size() > 0)
+                    onCreateEmergencyDialog(response.body().get(0)).show();
+                else
+                    onCreateEmergencyDialog(null).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<EmergencyContact>> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     private void returnToSignIn() {
         Intent i = new Intent(this, SignInActivity.class);
@@ -190,6 +238,55 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private Dialog onCreateEmergencyDialog(final EmergencyContact contact) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        LayoutInflater inflater = getLayoutInflater();
+        final View infoView = inflater.inflate(R.layout.dialog_emergency_edit, null);
+        final EditText etEmergencyName = infoView.findViewById(R.id.etEmergencyName);
+        final EditText etEmergencyPhone = infoView.findViewById(R.id.etEmergencyPhone);
+        final EditText etRelationship = infoView.findViewById(R.id.etRelationship);
+
+        if(contact != null){
+            etEmergencyName.setText(contact.getfName());
+            etEmergencyPhone.setText(contact.getEcPhone());
+            etRelationship.setText(contact.getRelationship());
+        }
+        builder.setView(infoView);
+
+        builder.setTitle("Edit Emergency Contact");
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {}
+        });
+        builder.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EmergencyContact newContact = new EmergencyContact(phone,etEmergencyName.getText().toString(),
+                        etRelationship.getText().toString(), etEmergencyPhone.getText().toString());
+                Call<EmergencyContact> callEmergency;
+                if(contact!=null)
+                    callEmergency = service.editContact(newContact);
+                else
+                    callEmergency = service.createEmergencyContact((newContact));
+                callEmergency.enqueue(new Callback<EmergencyContact>() {
+                    @Override
+                    public void onResponse(Call<EmergencyContact> call, Response<EmergencyContact> response) {
+                        Toast.makeText(getApplicationContext(),
+                                "Emergency Contact Updated!",
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<EmergencyContact> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        return builder.create();
+    }
+
+
 
     public Dialog onCreateDialog(int position) {
         phoneList = new ArrayList<String>();
@@ -199,10 +296,12 @@ public class MainActivity extends AppCompatActivity {
         TextView tvDate = infoView.findViewById(R.id.tvDate);
         TextView tvTime = infoView.findViewById(R.id.tvTime);
         TextView tvDescription = infoView.findViewById(R.id.tvDescription);
+        TextView tvSkillLevel = infoView.findViewById(R.id.tvSkillLevel);
         final Game game = gameList.get(position);
         tvDate.setText(game.getGameDate().substring(0,10));
         tvTime.setText(game.getStartTime()+" - "+game.getEndTime());
         tvDescription.setText(game.getDescription());
+        tvSkillLevel.setText(String.valueOf(game.getMinSkillLevel()));
         builder.setTitle(game.getSport());
 
         //Player list of this game
@@ -220,14 +319,9 @@ public class MainActivity extends AppCompatActivity {
                 String phone = player.getPhone();
                 String username = player.getUsername();
                 String dob = player.getDob();
-                int age = player.getAge();
 
+                retrieveEmergencyData(phone, username, dob);
 
-                Toast.makeText(getApplicationContext(),
-                        "Username: "+username+";\n"
-                        +"Phone: "+phone+";\n"
-                        +"Date of birth: "+dob,
-                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -302,6 +396,38 @@ public class MainActivity extends AppCompatActivity {
         }
         return builder.create();
 
+    }
+
+    private void retrieveEmergencyData(final String phone, final String username, final String dob) {
+
+        Call<List<EmergencyContact>> model = service.getContact(phone);
+        model.enqueue(new Callback<List<EmergencyContact>>() {
+            @Override
+            public void onResponse(Call<List<EmergencyContact>> call, Response<List<EmergencyContact>> response) {
+                if(response.body().size() > 0){
+                    EmergencyContact contact = response.body().get(0);
+                    Toast.makeText(getApplicationContext(),
+                            "Username: "+username+";\n"
+                                    +"Phone: "+phone+";\n"
+                                    +"Date of birth: "+dob.substring(0,10)+";\n"
+                            +"Emergency Contact: "+contact.getEcPhone()
+                                    +" ("+contact.getfName()+")",
+                            Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "Username: "+username+";\n"
+                                    +"Phone: "+phone+";\n"
+                                    +"Date of birth: "+dob.substring(0,10),
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<EmergencyContact>> call, Throwable t) {
+
+            }
+        });
     }
 
 
@@ -381,4 +507,10 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, GameFeedActivity.class);
         startActivity(i);
     }
+
+    public void checkTeamStats(View view) {
+        Intent i = new Intent(this, teamStatsActivity.class);
+        startActivity(i);
+    }
+
 }

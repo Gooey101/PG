@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.christophergu.pg.data.Account;
+import com.example.christophergu.pg.data.EmergencyContact;
 import com.example.christophergu.pg.data.Game;
 import com.example.christophergu.pg.data.QuitGame;
 import com.example.christophergu.pg.data.adapters.AccountArrayAdapter;
@@ -152,10 +153,12 @@ public class GameFeedActivity extends AppCompatActivity {
         TextView tvDate = infoView.findViewById(R.id.tvDate);
         TextView tvTime = infoView.findViewById(R.id.tvTime);
         TextView tvDescription = infoView.findViewById(R.id.tvDescription);
+        TextView tvSkillLevel = infoView.findViewById(R.id.tvSkillLevel);
         final Game game = gameList.get(position);
         tvDate.setText(game.getGameDate().substring(0,10));
         tvTime.setText(game.getStartTime()+" - "+game.getEndTime());
         tvDescription.setText(game.getDescription());
+        tvSkillLevel.setText(String.valueOf(game.getMinSkillLevel()));
         builder.setTitle(game.getSport());
 
         //Player list of this game
@@ -175,11 +178,8 @@ public class GameFeedActivity extends AppCompatActivity {
                 String dob = player.getDob();
                 String age = String.valueOf(player.getAge());
 
-                Toast.makeText(getApplicationContext(),
-                        "Username: "+username+";\n"
-                                +"Phone: "+phone+";\n"
-                                +"Date of birth: "+dob,
-                        Toast.LENGTH_LONG).show();
+                retrieveEmergencyData(phone, username, dob);
+
             }
         });
 
@@ -236,5 +236,38 @@ public class GameFeedActivity extends AppCompatActivity {
     private void returnToMain() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+    }
+
+    private void retrieveEmergencyData(final String phone, final String username, final String dob) {
+
+        Call<List<EmergencyContact>> model = service.getContact(phone);
+        model.enqueue(new Callback<List<EmergencyContact>>() {
+            @Override
+            public void onResponse(Call<List<EmergencyContact>> call, Response<List<EmergencyContact>> response) {
+
+                if(response.body().size() > 0){
+                    EmergencyContact contact = response.body().get(0);
+                    Toast.makeText(getApplicationContext(),
+                            "Username: "+username+";\n"
+                                    +"Phone: "+phone+";\n"
+                                    +"Date of birth: "+dob.substring(0,10)+";\n"
+                                    +"Emergency Contact: "+contact.getEcPhone()
+                                    +" ("+contact.getfName()+")",
+                            Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getApplicationContext(),
+                            "Username: "+username+";\n"
+                                    +"Phone: "+phone+";\n"
+                                    +"Date of birth: "+dob.substring(0,10),
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<EmergencyContact>> call, Throwable t) {
+
+            }
+        });
     }
 }
