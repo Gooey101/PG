@@ -13,7 +13,7 @@ exports.handler = (event, context, callback) => {
     // Select all games that an account hasn't joined and still available
     // from "games" and "joins" tables
     var sql = "SELECT * FROM games WHERE attendees < capacity AND gid NOT IN " +
-    "(SELECT gid FROM joins WHERE joins.phone = " + event.body.phone + ")";
+    "(SELECT gid FROM joins WHERE joins.phone = " + event.phone + ")";
     db.query(sql, function(error, rows, fields) {
         callback(null, rows);
     });
