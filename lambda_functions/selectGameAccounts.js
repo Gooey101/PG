@@ -26,7 +26,7 @@ exports.handler = (event, context, callback) => {
         // Select all rows that are in phones from "accounts" table
         var sql2 = "SELECT * FROM accounts WHERE phone IN " + phones;
         db.query(sql2, function(error, rows, fields) {
-            callback(error, rows);
+            callback(null, rows);
         });
     });
 };
