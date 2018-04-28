@@ -27,22 +27,22 @@
 
 -- SELECT * FROM courts;
 -- INSERT INTO courts (address, public, outside, openTime, closeTime)
--- Values("2040 Vichy Rd. Rolla, MO 65401", 0, 0, "6:00", "20:00");
+-- Values("604, Constitution Ave, Fort Leonard Wood, MO 65473", 1, 1, "13:00", "19:00");
 
 -- SELECT * FROM holds;
 -- INSERT INTO holds VALUES (2, 5);
 
 -- SELECT * FROM pools;
--- INSERT INTO pools VALUES (1, 5);
+-- INSERT INTO pools VALUES (13, 2);
 
 -- SELECT * FROM tennisCourts;
--- INSERT INTO tennisCourts VALUES (2, 8);
+-- INSERT INTO tennisCourts VALUES (2, 10);
 
 -- SELECT * FROM basketballCourts;
--- INSERT INTO basketballCourts VALUES (3, 2);
+-- INSERT INTO basketballCourts VALUES (6, 2);
 
 -- SELECT * FROM soccerFields;
--- INSERT INTO soccerFields VALUES (4, 1);
+-- INSERT INTO soccerFields VALUES (10, 1);
 
 -- SELECT courts.cid, courts.address, courts.public, courts.outside, courts.openTime, courts.closeTime, tennisCourts.numNets
 -- FROM courts, tennisCourts WHERE EXISTS (SELECT * FROM tennisCourts WHERE courts.cid = tennisCourts.cid);
