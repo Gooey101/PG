@@ -13,6 +13,7 @@ public class NewGame {
     private String phone;
     private int cid;
 
+
     public NewGame(String phone, String description, String gameDate, String startTime,
                    String endTime, int minAge, int maxAge, int minSkillLevel, int capacity,
                    String sport, int cid){
@@ -29,6 +30,9 @@ public class NewGame {
         this.sport = sport;
         this.cid = cid;
     }
+
+
+
 
     public String getSport() {
         return sport;
@@ -117,4 +121,6 @@ public class NewGame {
     public void setCid(int cid) {
         this.cid = cid;
     }
+
+
 }

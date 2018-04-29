@@ -19,6 +19,7 @@ import com.example.christophergu.pg.data.Game;
 import com.example.christophergu.pg.data.NewGame;
 
 import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,7 +89,7 @@ public class CreateGameActivity extends AppCompatActivity {
 
         // Create retrofit instance
         Retrofit retrofit= new Retrofit.Builder()
-                .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/games/")
+                .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -127,17 +128,23 @@ public class CreateGameActivity extends AppCompatActivity {
                         mSport,
                         mCid
                     );
-                    Toast.makeText(this, newGame.toString(), Toast.LENGTH_SHORT).show();
 
                     // Request API to createGame
                     Call<NewGame> call = service.createGame(newGame);
                     call.enqueue(new Callback<NewGame>() {
                         @Override
                         public void onResponse(Call<NewGame> call, Response<NewGame> response) {
+
+                            if(response.isSuccessful()){
+                                System.out.println(response.message());
+
+                            }
+                            System.out.println(response.body().toString());
                             returnToMain();
                         }
                         @Override
                         public void onFailure(Call<NewGame> call, Throwable t) {
+                            returnToMain();
                             showErrorMessage(1);
 
                         }
@@ -163,6 +170,7 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private void returnToMain() {
+        Toast.makeText(this, "New Game Created!", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
