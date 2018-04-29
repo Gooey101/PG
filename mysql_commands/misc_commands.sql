@@ -6,6 +6,7 @@
 -- SELECT * FROM teams;
 -- INSERT INTO teams (tname, description) VALUES ("Facebook", "everyone hates Facebook");
 -- SELECT MAX(numMembers), tName, description FROM teams;
+-- SELECT tid FROM members WHERE phone = "3149607356";
 
 -- SELECT * FROM members;
 -- INSERT INTO members VALUES("3149607356", 1);

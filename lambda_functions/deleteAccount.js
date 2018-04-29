@@ -34,17 +34,27 @@ exports.handler = (event, context, callback) => {
     var sql3 = "DELETE FROM joins WHERE phone = " + event.phone;
     db.query(sql3);
 
-    // Delete row from "members" table
-    var sql4 = "DELETE FROM members WHERE phone = " + event.phone;
+    // Delete row from "emergencyContacts" table
+    var sql4 = "DELETE FROM emergencyContacts WHERE phone = " + event.phone;
     db.query(sql4);
 
-    // Delete row from "emergencyContacts" table
-    var sql5 = "DELETE FROM emergencyContacts WHERE phone = " + event.phone;
-    db.query(sql5);
+    // Select tid of account from "members" table
+    var sql5 = "SELECT tid FROM members WHERE phone = " + event.phone;
+    db.query(sql5, function(error, rows, fields) {
+        var tid = rows[0]["tid"];
+
+        // Update team numMembers from "teams" table
+        var sql6 = "UPDATE teams SET numMembers = numMembers - 1 WHERE tid = " + tid;
+        db.query(sql6);
+    });
+
+    // Delete row from "members" table
+    var sql7 = "DELETE FROM members WHERE phone = " + event.phone;
+    db.query(sql7);
 
     // Delete row from "accounts" table
-    var sql6 = "DELETE FROM accounts WHERE phone = " + event.phone;
-    db.query(sql6, function(error, rows, fields) {
+    var sql8 = "DELETE FROM accounts WHERE phone = " + event.phone;
+    db.query(sql8, function(error, rows, fields) {
         callback(null);
     });
 };
