@@ -1,17 +1,17 @@
 package com.example.christophergu.pg.data;
 
 public class DeleteGame {
-    private String phone;
+    private int gid;
 
-    public DeleteGame(String phone) {
-        this.phone = phone;
+    public DeleteGame(int gid) {
+        this.gid = gid;
     }
 
-    public String getPhone() {
-        return phone;
+    public int getPhone() {
+        return gid;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone(int gid) {
+        this.gid = gid;
     }
 }

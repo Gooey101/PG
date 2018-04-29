@@ -364,13 +364,13 @@ public class MainActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    DeleteGame delete = new DeleteGame(phone);
-                    Call<DeleteGame> model = service.deleteGame(delete);
+                    Call<String> model = service.deleteGame(game.getGid());
                     gameArrayAdapter.notifyDataSetChanged();
-                    model.enqueue(new Callback<DeleteGame>() {
+                    model.enqueue(new Callback<String>() {
                         @Override
-                        public void onResponse(Call<DeleteGame> call, Response<DeleteGame> response) {
+                        public void onResponse(Call<String> call, Response<String> response) {
 
+                            storeGameInfos();
                             gameArrayAdapter.notifyDataSetChanged();
                             Toast.makeText(getApplicationContext(),
                                     "Game deleted!",
@@ -379,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<DeleteGame> call, Throwable t) {
+                        public void onFailure(Call<String> call, Throwable t) {
                             gameArrayAdapter.notifyDataSetChanged();
 
                         }

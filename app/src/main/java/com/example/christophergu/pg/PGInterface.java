@@ -51,7 +51,7 @@ public interface PGInterface {
     Call<QuitGame> joinGame(@Body QuitGame body);
 
     @DELETE("games/game")
-    Call<DeleteGame> deleteGame(@Body DeleteGame body);
+    Call<String> deleteGame(@Query("gid") int gid);
 
     @GET("games")
     Call<List<Game>> getAllGames(@Query("phone") String phone);

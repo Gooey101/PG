@@ -139,7 +139,7 @@ public class CreateGameActivity extends AppCompatActivity {
                                 System.out.println(response.message());
 
                             }
-                            System.out.println(response.body().toString());
+
                             returnToMain();
                         }
                         @Override
