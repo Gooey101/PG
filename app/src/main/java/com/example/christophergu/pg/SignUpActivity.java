@@ -171,6 +171,9 @@ public class SignUpActivity extends AppCompatActivity {
             case "Facebook":
                 tid=4;
                 break;
+            default:
+                tid=1;
+                break;
 
         }
         joinTeam join = new joinTeam(mPhoneNumber.getText().toString(), tid);
@@ -182,6 +185,9 @@ public class SignUpActivity extends AppCompatActivity {
                 mUserName.getText().clear();
                 mDob.getText().clear();
                 mEmergencyPhone.getText().clear();
+                mEmergencyName.getText().clear();
+                mEmergencyRelationship.getText().clear();
+
             }
 
             @Override
