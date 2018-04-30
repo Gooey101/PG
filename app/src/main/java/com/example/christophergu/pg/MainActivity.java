@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         mUsername.setText(username);
         mLetter.setText(username.substring(0, 1).toUpperCase());
 
+
+        // Set up retrofit instances and create service objects
         gameList = new ArrayList<Game>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
@@ -95,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         service2 = retrofit2.create(PGInterface.class);
 
 
+
+        // Retrieve team information about the user
         Call<List<Team>> call = service.getTeam(phone);
         call.enqueue(new Callback<List<Team>>() {
             @Override
@@ -110,9 +114,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+        // Retrieve information of all games the user is in
         storeGameInfos();
 
-
+        // Set onClick event for each game the user is in
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -141,11 +147,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Action bar item onClick listener
         switch (item.getItemId()) {
             case R.id.emergency:
                 //Check Conditions
                 retrieveEmergencyData();
-
                 return true;
             case R.id.remove:
                 Call<String> call = service.removeAccount(phone);
@@ -170,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void retrieveEmergencyData() {
+        // Retrieve emergency data of the user
         Call<List<EmergencyContact>> model = service.getContact(phone);
         model.enqueue(new Callback<List<EmergencyContact>>() {
             @Override
@@ -190,16 +198,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void returnToSignIn() {
+        // Return to signIn page when the user logs out or deleted account
         Intent i = new Intent(this, SignInActivity.class);
         startActivity(i);
     }
 
 
     public void readData(final int position) {
+        // List to store all users phone numbers
         phoneList = new ArrayList<>();
         final Game game = gameList.get(position);
+
+        // Listview adapter for all accounts
         accountArrayAdapter = new AccountArrayAdapter(getApplication(), R.layout.item_player_list, accountList);
         accountArrayAdapter.setNotifyOnChange(true);
+
+        // Get all players' information of a particular player
         Call<List<Account>> model2 = service2.getPlayers(game.getGid());
         model2.enqueue(new Callback<List<Account>>() {
             @Override
@@ -208,26 +222,19 @@ public class MainActivity extends AppCompatActivity {
                     phoneList.add(t.getPhone());
                     accountList.add(t);
                 }
-
-                //System.out.print(accountList.size());
-
-
                 onCreateDialog(position).show();
-
-                //right here you can call the other request and just give it the token
-
                 dataReady = true;
             }
 
             @Override
             public void onFailure(Call<List<Account>> call, Throwable t) {
-
             }
         });
     }
 
 
     private Dialog onCreateEmergencyDialog(final EmergencyContact contact) {
+        // Create dialogue instance for emergency data
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
         LayoutInflater inflater = getLayoutInflater();
         final View infoView = inflater.inflate(R.layout.dialog_emergency_edit, null);
@@ -243,6 +250,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setView(infoView);
 
         builder.setTitle("Edit Emergency Contact");
+
+        //Set the actions of buttons
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -254,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 EmergencyContact newContact = new EmergencyContact(phone, etEmergencyName.getText().toString(),
                         etRelationship.getText().toString(), etEmergencyPhone.getText().toString());
                 Call<EmergencyContact> callEmergency;
+                // Create new contact if contact does not already exist
                 if (contact != null)
                     callEmergency = service.editContact(newContact);
                 else
@@ -295,12 +305,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Player list of this game
         playerList = infoView.findViewById(R.id.lvGamePlayers);
-        //retrievePlayers(game.getGid());
-
         accountArrayAdapter = new AccountArrayAdapter(getApplication(), R.layout.item_player_list, accountList);
         accountArrayAdapter.notifyDataSetChanged();
         playerList.setAdapter(accountArrayAdapter);
 
+        // show each palayer's onClick listener
         playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -308,14 +317,13 @@ public class MainActivity extends AppCompatActivity {
                 String phone = player.getPhone();
                 String username = player.getUsername();
                 String dob = player.getDob();
-
                 retrieveEmergencyData(phone, username, dob);
-
             }
         });
 
 
         builder.setView(infoView);
+        // If the user is the creator of the game, set delete button, else set quit game button
         if (!(phone.equals(game.getCreator()))) {
             builder.setPositiveButton(R.string.quit, new DialogInterface.OnClickListener() {
                 @Override
@@ -330,13 +338,11 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),
                                     "You quit the game!",
                                     Toast.LENGTH_SHORT).show();
-
                         }
 
                         @Override
                         public void onFailure(Call<QuitGame> call, Throwable t) {
                             gameArrayAdapter.notifyDataSetChanged();
-
                         }
 
                     });
@@ -389,6 +395,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void retrieveEmergencyData(final String phone, final String username, final String dob) {
 
+        // Establish connect to retrieve emergency data of a particular user
         Call<List<EmergencyContact>> model = service.getContact(phone);
         model.enqueue(new Callback<List<EmergencyContact>>() {
             @Override
@@ -420,28 +427,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//    private void retrievePlayers(int gid) {
-//        Call<String> model = service2.getPlayers(gid);
-//
-//        model.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Call<String> call, Response<String> response) {
-////                for (String pho: response.body()){
-////                    phoneList.add(pho);
-////                }
-//
-////                accountArrayAdapter = new AccountArrayAdapter(getApplication(), R.layout.item_player_list, accountList);
-////                accountArrayAdapter.setNotifyOnChange(true);
-////                playerList.setAdapter(accountArrayAdapter);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<String> call, Throwable t) {
-//
-//            }
-//        });
-//    }
-
     private void getAccountInfos(String pho) {
 
         Call<List<Account>> model2 = service.getAccount(pho);
@@ -451,7 +436,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
                 for (Account account : response.body())
                     accountList.add(account);
-
             }
 
             @Override
@@ -475,8 +459,6 @@ public class MainActivity extends AppCompatActivity {
                 gameArrayAdapter = new GameArrayAdapter(getApplication(), R.layout.item_game_list, gameList);
                 gameArrayAdapter.setNotifyOnChange(true);
                 mListView.setAdapter(gameArrayAdapter);
-
-
             }
 
             @Override
@@ -488,16 +470,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createGame(View view) {
+        // Enter the activity to select a sport
         Intent intent = new Intent(this, SportListActivity.class);
         startActivity(intent);
     }
 
     public void GameFeed(View view) {
+        // Enter the activity to list all existing games
         Intent i = new Intent(this, GameFeedActivity.class);
         startActivity(i);
     }
 
     public void checkTeamStats(View view) {
+        // Enter the activity to list all team stats
         Intent i = new Intent(this, TeamStatsActivity.class);
         startActivity(i);
     }

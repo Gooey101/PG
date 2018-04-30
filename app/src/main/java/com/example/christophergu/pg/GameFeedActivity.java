@@ -63,9 +63,9 @@ public class GameFeedActivity extends AppCompatActivity {
         age = sharedPref.getInt(getString(R.string.age), 0);
 
 
+        // Create retrofit instance to retrieve all games' information
         lvGameFeed = findViewById(R.id.lvGameFeed);
         gameList = new ArrayList<Game>();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -104,9 +104,8 @@ public class GameFeedActivity extends AppCompatActivity {
 
 
     private void setLvAdapter() {
+        // Set listview adapter for game feed
         lvGameFeed.setAdapter(gameArrayAdapter);
-
-
         lvGameFeed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -144,6 +143,8 @@ public class GameFeedActivity extends AppCompatActivity {
 
     public Dialog onCreateDialog(int position) {
         phoneList = new ArrayList<String>();
+
+        // Build the aleart dialog for the app
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
         LayoutInflater inflater = getLayoutInflater();
         final View infoView = inflater.inflate(R.layout.dialog_game_info, null);
@@ -160,7 +161,6 @@ public class GameFeedActivity extends AppCompatActivity {
 
         //Player list of this game
         playerList = infoView.findViewById(R.id.lvGamePlayers);
-        //retrievePlayers(game.getGid());
 
         accountArrayAdapter = new AccountArrayAdapter(getApplication(), R.layout.item_player_list, accountList);
         accountArrayAdapter.notifyDataSetChanged();
@@ -181,11 +181,14 @@ public class GameFeedActivity extends AppCompatActivity {
         });
 
 
+        // Only show join game button if the user is not the creator of the game
         builder.setView(infoView);
         if (!(phone.equals(game.getCreator()))) {
             builder.setPositiveButton(R.string.join, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
+                    // Check if the user's age is within the allowed range
                     if (age >= game.getMinAge() && age <= game.getMaxAge()) {
                         QuitGame quit = new QuitGame(1, game.getGid(), phone);
                         Call<QuitGame> model = service.quitGame(quit);
@@ -236,6 +239,7 @@ public class GameFeedActivity extends AppCompatActivity {
 
     private void retrieveEmergencyData(final String phone, final String username, final String dob) {
 
+        // Get a particular user's emergency contact information
         Call<List<EmergencyContact>> model = service.getContact(phone);
         model.enqueue(new Callback<List<EmergencyContact>>() {
             @Override

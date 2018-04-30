@@ -47,7 +47,7 @@ public class TeamStatsActivity extends AppCompatActivity {
                 .build();
         service = retrofit.create(PGInterface.class);
 
-
+        // Retrieve all teams data
         Call<List<Team>> call = service.getAllTeams(0);
         call.enqueue(new Callback<List<Team>>() {
             @Override
@@ -69,6 +69,8 @@ public class TeamStatsActivity extends AppCompatActivity {
 
     }
 
+
+    // Button to show all team informations
     public void viewAll(View view) {
         allTeams = new ArrayList<>();
         Call<List<Team>> call = service.getAllTeams(0);
@@ -92,6 +94,7 @@ public class TeamStatsActivity extends AppCompatActivity {
 
     }
 
+    // Button to show the teams with maximum amount of members
     public void viewMax(View view) {
         allTeams = new ArrayList<>();
         Call<List<Team>> call = service.getAllTeams(1);
@@ -114,6 +117,7 @@ public class TeamStatsActivity extends AppCompatActivity {
         });
     }
 
+    // Button to show the teams with minimum amount of members
     public void viewMin(View view) {
         allTeams = new ArrayList<>();
         Call<List<Team>> call = service.getAllTeams(2);

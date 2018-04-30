@@ -17,6 +17,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void getStarted(View view) {
+        //Welcome button onClick event, starting another activity
         Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
     }

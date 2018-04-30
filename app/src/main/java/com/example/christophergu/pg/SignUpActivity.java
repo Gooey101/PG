@@ -59,6 +59,8 @@ public class SignUpActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.teamPick, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Select the team
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -104,6 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
      */
     public void signUp(View view) {
         final boolean[] isCreated = {false};
+        // Validate the information of the sign up information
         if (!mPhoneNumber.getText().toString().matches(regexStr) ||
                 mPhoneNumber.getText().length() < 10 ||
                 mUserName.getText().length() == 0 ||
@@ -138,6 +141,7 @@ public class SignUpActivity extends AppCompatActivity {
         String ecPhone = mEmergencyPhone.getText().toString();
         String ecRelationship = mEmergencyRelationship.getText().toString();
 
+        // Create new emergency contact
         EmergencyContact newContact = new EmergencyContact(mPhoneNumber.getText().toString(), ecName, ecRelationship, ecPhone);
         Call<EmergencyContact> callEmergency = service.createEmergencyContact(newContact);
         callEmergency.enqueue(new Callback<EmergencyContact>() {
@@ -154,6 +158,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
+        // Get the user's selection for team
         int tid = (int) spinner.getSelectedItemId();
         System.out.println("TID IS :  " + tid);
         switch (spinner.getSelectedItem().toString()) {
@@ -174,6 +179,8 @@ public class SignUpActivity extends AppCompatActivity {
                 break;
 
         }
+
+        //Joins the user with the selected team
         joinTeam join = new joinTeam(mPhoneNumber.getText().toString(), tid);
         Call<joinTeam> model = service.joinTeam(join);
         model.enqueue(new Callback<joinTeam>() {
@@ -198,6 +205,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void returnToSignIn() {
+        // Return to signin Activity after signing up successfully
         Toast.makeText(this, "Account Created!", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, SignInActivity.class);
         startActivity(i);

@@ -32,7 +32,6 @@ public class CourtListActivity extends AppCompatActivity {
     public static String sportType;
     public static int cid = -1;
 
-    private boolean dataRetrieved = false;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +54,7 @@ public class CourtListActivity extends AppCompatActivity {
 
         storeCourtInfos();
 
+        // Set onClick listener for each court
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -72,7 +72,7 @@ public class CourtListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        // Proceed to next activity
         switch (item.getItemId()) {
             case R.id.next:
                 if (sportType != null && cid != -1) {
@@ -94,6 +94,7 @@ public class CourtListActivity extends AppCompatActivity {
     }
 
     private void storeCourtInfos() {
+        // Create retrofit instance to get court information
         Call<List<Court>> model = service.getCourts(sportType);
         model.enqueue(new Callback<List<Court>>() {
             @Override
@@ -103,9 +104,7 @@ public class CourtListActivity extends AppCompatActivity {
                     System.out.println("Court id is: " + court.getCid());
                 }
                 CourtArrayAdapter adapter = new CourtArrayAdapter(getApplication(), R.layout.item_court_list, courtList);
-                //adapter.setNotifyOnChange(true);
                 mListView.setAdapter(adapter);
-                dataRetrieved = true;
             }
 
             @Override

@@ -28,6 +28,7 @@ public class SportListActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.item_sport_list, R.id.tvSportType, sportTypes);
         listView.setAdapter(adapter);
 
+        // get sport type accoding to the sport selected by the user
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -61,7 +62,7 @@ public class SportListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        // Get the sport type the user selects
         switch (item.getItemId()) {
             case R.id.next:
                 if (sportType != null) {
