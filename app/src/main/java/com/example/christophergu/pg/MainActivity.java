@@ -498,7 +498,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void checkTeamStats(View view) {
-        Intent i = new Intent(this, teamStatsActivity.class);
+        Intent i = new Intent(this, TeamStatsActivity.class);
         startActivity(i);
     }
 

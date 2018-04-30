@@ -94,14 +94,14 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:ems="10"
+            android:focusableInTouchMode="false"
             android:hint="Pick end time..."
             android:inputType="date"
             android:onClick="selectEndTime"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            android:focusableInTouchMode="false"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <TextView
             android:id="@+id/textView3"
@@ -110,14 +110,14 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:focusableInTouchMode="false"
             android:text="End Time"
             android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etStartTime"
-            android:focusableInTouchMode="false"/>
+            app:layout_constraintTop_toBottomOf="@+id/etStartTime" />
 
         <EditText
             android:id="@+id/etStartTime"
@@ -127,6 +127,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:ems="10"
+            android:focusableInTouchMode="false"
             android:hint="Pick starting time..."
             android:inputType="date"
             android:onClick="selectStartTime"
@@ -134,8 +135,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            android:focusableInTouchMode="false"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
             android:id="@+id/textView2"

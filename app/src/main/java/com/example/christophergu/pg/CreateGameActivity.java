@@ -70,7 +70,7 @@ public class CreateGameActivity extends AppCompatActivity {
         mCid = intent.getIntExtra(getString(R.string.passCID), -1);
 
         // Figure out sport type
-        switch(mSport) {
+        switch (mSport) {
             case "pools":
                 mSport = "Swimming";
                 break;
@@ -88,7 +88,7 @@ public class CreateGameActivity extends AppCompatActivity {
         }
 
         // Create retrofit instance
-        Retrofit retrofit= new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -110,23 +110,23 @@ public class CreateGameActivity extends AppCompatActivity {
                 //Check Conditions
                 int skill = Integer.parseInt(mSkillLevel.getText().toString());
 
-                if(skill < 1 || skill > 5)
+                if (skill < 1 || skill > 5)
                     showErrorMessage(0);
-                else{
+                else {
 
                     // Create new Game
                     NewGame newGame = new NewGame(
-                        mPhone,
-                        mDescription.getText().toString(),
-                        mDate.getText().toString(),
-                        mStartTime.getText().toString(),
-                        mEndTime.getText().toString(),
-                        Integer.parseInt(mMinAge.getText().toString()),
-                        Integer.parseInt(mMaxAge.getText().toString()),
-                        Integer.parseInt(mSkillLevel.getText().toString()),
-                        Integer.parseInt(mCapacity.getText().toString()),
-                        mSport,
-                        mCid
+                            mPhone,
+                            mDescription.getText().toString(),
+                            mDate.getText().toString(),
+                            mStartTime.getText().toString(),
+                            mEndTime.getText().toString(),
+                            Integer.parseInt(mMinAge.getText().toString()),
+                            Integer.parseInt(mMaxAge.getText().toString()),
+                            Integer.parseInt(mSkillLevel.getText().toString()),
+                            Integer.parseInt(mCapacity.getText().toString()),
+                            mSport,
+                            mCid
                     );
 
                     // Request API to createGame
@@ -135,13 +135,14 @@ public class CreateGameActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<NewGame> call, Response<NewGame> response) {
 
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 System.out.println(response.message());
 
                             }
 
                             returnToMain();
                         }
+
                         @Override
                         public void onFailure(Call<NewGame> call, Throwable t) {
                             returnToMain();
@@ -158,7 +159,7 @@ public class CreateGameActivity extends AppCompatActivity {
     }
 
     private void showErrorMessage(int num) {
-        switch(num){
+        switch (num) {
             case 0:
                 Toast.makeText(this, "Skill level has to be between 1 and 5~", Toast.LENGTH_SHORT).show();
                 break;
@@ -200,11 +201,11 @@ public class CreateGameActivity extends AppCompatActivity {
             // arg1 = year; arg2 = month; arg3 = day
             String month = String.valueOf(arg2);
             String day = String.valueOf(arg3);
-            if(arg2 < 10)
-                month = "0"+String.valueOf(arg2);
-            if(arg3 < 10)
-                day = "0"+String.valueOf(arg3);
-            mDate.setText(String.valueOf(arg1)+"-"+month+"-"+day);
+            if (arg2 < 10)
+                month = "0" + String.valueOf(arg2);
+            if (arg3 < 10)
+                day = "0" + String.valueOf(arg3);
+            mDate.setText(String.valueOf(arg1) + "-" + month + "-" + day);
         }
     };
 

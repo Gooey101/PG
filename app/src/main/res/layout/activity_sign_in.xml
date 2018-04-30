@@ -24,11 +24,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="200dp"
         android:ems="10"
-        android:textColorHint="@android:color/white"
         android:hint="Your Phone #"
-        android:textColor="@android:color/white"
         android:inputType="phone"
         android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

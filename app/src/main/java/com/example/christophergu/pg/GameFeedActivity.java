@@ -49,7 +49,7 @@ public class GameFeedActivity extends AppCompatActivity {
     private ArrayList<ArrayList<Account>> gameAccounts;
 
     @Override
-    protected void onCreate(Bundle savedInstance){
+    protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_game_feed);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -59,14 +59,14 @@ public class GameFeedActivity extends AppCompatActivity {
                 getString(R.string.userInfo), Context.MODE_PRIVATE);
         phone = sharedPref.getString(getString(R.string.userPhone), null);
         username = sharedPref.getString(getString(R.string.userName), null);
-        dob = sharedPref.getString(getString(R.string.userDOB), null).substring(0,10);
+        dob = sharedPref.getString(getString(R.string.userDOB), null).substring(0, 10);
         age = sharedPref.getInt(getString(R.string.age), 0);
 
 
         lvGameFeed = findViewById(R.id.lvGameFeed);
         gameList = new ArrayList<Game>();
 
-        Retrofit retrofit= new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -74,8 +74,6 @@ public class GameFeedActivity extends AppCompatActivity {
 
 
         getGamesFeed();
-
-
 
 
     }
@@ -86,7 +84,7 @@ public class GameFeedActivity extends AppCompatActivity {
         model.enqueue(new Callback<List<Game>>() {
             @Override
             public void onResponse(Call<List<Game>> call, Response<List<Game>> response) {
-                for (Game game: response.body()) {
+                for (Game game : response.body()) {
                     gameList.add(game);
                 }
                 gameArrayAdapter = new GameArrayAdapter(getApplication(), R.layout.item_game_list, gameList);
@@ -120,7 +118,7 @@ public class GameFeedActivity extends AppCompatActivity {
     }
 
 
-    public void readData(final int position){
+    public void readData(final int position) {
         phoneList = new ArrayList<>();
         final Game game = gameList.get(position);
         accountArrayAdapter = new AccountArrayAdapter(getApplication(), R.layout.item_player_list, accountList);
@@ -129,7 +127,7 @@ public class GameFeedActivity extends AppCompatActivity {
         model.enqueue(new Callback<List<Account>>() {
             @Override
             public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
-                for(Account t: response.body()) {
+                for (Account t : response.body()) {
                     phoneList.add(t.getPhone());
                     accountList.add(t);
                 }
@@ -144,7 +142,6 @@ public class GameFeedActivity extends AppCompatActivity {
     }
 
 
-
     public Dialog onCreateDialog(int position) {
         phoneList = new ArrayList<String>();
         final AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
@@ -155,8 +152,8 @@ public class GameFeedActivity extends AppCompatActivity {
         TextView tvDescription = infoView.findViewById(R.id.tvDescription);
         TextView tvSkillLevel = infoView.findViewById(R.id.tvSkillLevel);
         final Game game = gameList.get(position);
-        tvDate.setText(game.getGameDate().substring(0,10));
-        tvTime.setText(game.getStartTime()+" - "+game.getEndTime());
+        tvDate.setText(game.getGameDate().substring(0, 10));
+        tvTime.setText(game.getStartTime() + " - " + game.getEndTime());
         tvDescription.setText(game.getDescription());
         tvSkillLevel.setText(String.valueOf(game.getMinSkillLevel()));
         builder.setTitle(game.getSport());
@@ -185,7 +182,7 @@ public class GameFeedActivity extends AppCompatActivity {
 
 
         builder.setView(infoView);
-        if( !(phone.equals(game.getCreator()))) {
+        if (!(phone.equals(game.getCreator()))) {
             builder.setPositiveButton(R.string.join, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -213,9 +210,9 @@ public class GameFeedActivity extends AppCompatActivity {
                         gameArrayAdapter.notifyDataSetChanged();
                         returnToMain();
 
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(),
-                                "Allowed age range: "+game.getMinAge()+" ~ "+game.getMaxAge(),
+                                "Allowed age range: " + game.getMinAge() + " ~ " + game.getMaxAge(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -223,9 +220,8 @@ public class GameFeedActivity extends AppCompatActivity {
         }
 
 
-
         gameArrayAdapter.notifyDataSetChanged();
-        synchronized(gameArrayAdapter){
+        synchronized (gameArrayAdapter) {
             gameArrayAdapter.notifyAll();
         }
         return builder.create();
@@ -245,20 +241,20 @@ public class GameFeedActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<EmergencyContact>> call, Response<List<EmergencyContact>> response) {
 
-                if(response.body().size() > 0){
+                if (response.body().size() > 0) {
                     EmergencyContact contact = response.body().get(0);
                     Toast.makeText(getApplicationContext(),
-                            "Username: "+username+";\n"
-                                    +"Phone: "+phone+";\n"
-                                    +"Date of birth: "+dob.substring(0,10)+";\n"
-                                    +"Emergency Contact: "+contact.getEcPhone()
-                                    +" ("+contact.getfName()+")",
+                            "Username: " + username + ";\n"
+                                    + "Phone: " + phone + ";\n"
+                                    + "Date of birth: " + dob.substring(0, 10) + ";\n"
+                                    + "Emergency Contact: " + contact.getEcPhone()
+                                    + " (" + contact.getfName() + ")",
                             Toast.LENGTH_LONG).show();
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(),
-                            "Username: "+username+";\n"
-                                    +"Phone: "+phone+";\n"
-                                    +"Date of birth: "+dob.substring(0,10),
+                            "Username: " + username + ";\n"
+                                    + "Phone: " + phone + ";\n"
+                                    + "Date of birth: " + dob.substring(0, 10),
                             Toast.LENGTH_LONG).show();
                 }
 

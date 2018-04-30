@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.christophergu.pg">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -19,13 +20,27 @@
         </activity>
 
         <activity android:name=".MainActivity" />
-        <activity android:name=".SignInActivity" android:parentActivityName=".SignUpActivity"/>
-        <activity android:name=".SignUpActivity" android:parentActivityName=".SignInActivity"/>
-        <activity android:name=".CourtListActivity" android:parentActivityName=".SportListActivity"/>
-        <activity android:name=".SportListActivity" android:parentActivityName=".MainActivity"/>
-        <activity android:name=".CreateGameActivity" android:parentActivityName=".CourtListActivity"/>
-        <activity android:name=".GameFeedActivity" android:parentActivityName=".MainActivity"/>
-        <activity android:name=".teamStatsActivity" android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".SignInActivity"
+            android:parentActivityName=".SignUpActivity" />
+        <activity
+            android:name=".SignUpActivity"
+            android:parentActivityName=".SignInActivity" />
+        <activity
+            android:name=".CourtListActivity"
+            android:parentActivityName=".SportListActivity" />
+        <activity
+            android:name=".SportListActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".CreateGameActivity"
+            android:parentActivityName=".CourtListActivity" />
+        <activity
+            android:name=".GameFeedActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".TeamStatsActivity"
+            android:parentActivityName=".MainActivity" />
 
     </application>
 

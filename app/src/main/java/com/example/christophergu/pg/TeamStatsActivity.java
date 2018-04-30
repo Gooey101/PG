@@ -18,7 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class teamStatsActivity extends AppCompatActivity {
+public class TeamStatsActivity extends AppCompatActivity {
 
     private PGInterface service;
     private ListView lvAllTeams;
@@ -29,7 +29,7 @@ public class teamStatsActivity extends AppCompatActivity {
     private TeamArrayAdapter teamArrayAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstance){
+    protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_team_stats);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -41,7 +41,7 @@ public class teamStatsActivity extends AppCompatActivity {
         allTeams = new ArrayList<>();
 
 
-        Retrofit retrofit= new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -52,7 +52,7 @@ public class teamStatsActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Team>>() {
             @Override
             public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
-                for(Team t: response.body()){
+                for (Team t : response.body()) {
                     allTeams.add(t);
                 }
                 teamArrayAdapter = new TeamArrayAdapter(getApplicationContext(), R.layout.item_team_list, allTeams);
@@ -67,7 +67,6 @@ public class teamStatsActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     public void viewAll(View view) {
@@ -76,7 +75,7 @@ public class teamStatsActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Team>>() {
             @Override
             public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
-                for(Team t: response.body()){
+                for (Team t : response.body()) {
                     allTeams.add(t);
                 }
                 teamArrayAdapter = new TeamArrayAdapter(getApplicationContext(), R.layout.item_team_list, allTeams);
@@ -99,7 +98,7 @@ public class teamStatsActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Team>>() {
             @Override
             public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
-                for(Team t: response.body()){
+                for (Team t : response.body()) {
                     allTeams.add(t);
                 }
                 teamArrayAdapter = new TeamArrayAdapter(getApplicationContext(), R.layout.item_team_list, allTeams);
@@ -121,7 +120,7 @@ public class teamStatsActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<Team>>() {
             @Override
             public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
-                for(Team t: response.body()){
+                for (Team t : response.body()) {
                     allTeams.add(t);
                 }
                 teamArrayAdapter = new TeamArrayAdapter(getApplicationContext(), R.layout.item_team_list, allTeams);

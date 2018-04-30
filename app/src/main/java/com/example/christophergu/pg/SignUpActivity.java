@@ -54,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         mEmergencyRelationship = findViewById(R.id.etEmergencyRelationship);
         mSignUp = findViewById(R.id.btnSignUp);
         spinner = (Spinner) findViewById(R.id.spTeams);
-        tvTeamDescription =findViewById(R.id.tvTeamDescription);
+        tvTeamDescription = findViewById(R.id.tvTeamDescription);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.teamPick, android.R.layout.simple_spinner_item);
@@ -63,7 +63,7 @@ public class SignUpActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (spinner.getSelectedItem().toString()){
+                switch (spinner.getSelectedItem().toString()) {
                     case "Google":
                         tvTeamDescription.setText(R.string.googleDescription);
                         break;
@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         //Create retrofit instance
-        Retrofit retrofit= new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -116,7 +116,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
 
-
         String item = spinner.getSelectedItem().toString();
         // Request API to create Account
         Account newAccount = new Account(mPhoneNumber.getText().toString(), mUserName.getText().toString(), mDob.getText().toString());
@@ -124,15 +123,15 @@ public class SignUpActivity extends AppCompatActivity {
         call.enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     isCreated[0] = true;
                 }
             }
 
             @Override
-            public void onFailure(Call<Account> call, Throwable t) {}
+            public void onFailure(Call<Account> call, Throwable t) {
+            }
         });
-
 
 
         String ecName = mEmergencyName.getText().toString();
@@ -155,24 +154,23 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
-
         int tid = (int) spinner.getSelectedItemId();
-        System.out.println("TID IS :  "+tid);
-        switch(spinner.getSelectedItem().toString()){
+        System.out.println("TID IS :  " + tid);
+        switch (spinner.getSelectedItem().toString()) {
             case "Google":
-                tid=1;
+                tid = 1;
                 break;
             case "Apple":
-                tid=2;
+                tid = 2;
                 break;
             case "Amazon":
-                tid=3;
+                tid = 3;
                 break;
             case "Facebook":
-                tid=4;
+                tid = 4;
                 break;
             default:
-                tid=1;
+                tid = 1;
                 break;
 
         }
@@ -195,8 +193,6 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
     }

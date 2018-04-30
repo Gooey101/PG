@@ -36,15 +36,12 @@ public class SignInActivity extends Activity {
         mPhoneNumber = findViewById(R.id.etPhone);
 
         // Create retrofit instance
-        Retrofit retrofit= new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(PGInterface.class);
     }
-
-
-
 
 
     public void enterPhone(View view) {
@@ -61,12 +58,10 @@ public class SignInActivity extends Activity {
         if (input.length() == 0) {
             Toast.makeText(getApplicationContext(), "Please enter your phone number.",
                     Toast.LENGTH_SHORT).show();
-        }
-        else if (!input.matches(regexStr) || input.length()<10) {
+        } else if (!input.matches(regexStr) || input.length() < 10) {
             Toast.makeText(getApplicationContext(), "Please enter valid phone number.",
                     Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
 
             // Create explicit intents
             final Intent login = new Intent(this, MainActivity.class);
@@ -78,7 +73,7 @@ public class SignInActivity extends Activity {
                 @Override
                 public void onResponse(Call<List<Account>> call, Response<List<Account>> response) {
                     exists[0] = true;
-                    for (Account account: response.body()) {
+                    for (Account account : response.body()) {
                         System.out.println(account.getPhone().toString());
                     }
 

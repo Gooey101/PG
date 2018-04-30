@@ -44,7 +44,7 @@ public class CourtListActivity extends AppCompatActivity {
         sportType = intent.getStringExtra(getString(R.string.passSport));
 
         // Create retrofit instance
-        Retrofit retrofit= new Retrofit.Builder()
+        Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://z3j1v77xu5.execute-api.us-east-1.amazonaws.com/beta/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -75,12 +75,12 @@ public class CourtListActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.next:
-                if(sportType != null && cid != -1) {
+                if (sportType != null && cid != -1) {
                     Intent intent = new Intent(this, CreateGameActivity.class);
                     intent.putExtra(getString(R.string.passSport), sportType);
                     intent.putExtra(getString(R.string.passCID), cid);
                     startActivity(intent);
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Please pick a court~~~",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -98,9 +98,9 @@ public class CourtListActivity extends AppCompatActivity {
         model.enqueue(new Callback<List<Court>>() {
             @Override
             public void onResponse(Call<List<Court>> call, Response<List<Court>> response) {
-                for (Court court: response.body()) {
+                for (Court court : response.body()) {
                     courtList.add(court);
-                    System.out.println("Court id is: "+court.getCid());
+                    System.out.println("Court id is: " + court.getCid());
                 }
                 CourtArrayAdapter adapter = new CourtArrayAdapter(getApplication(), R.layout.item_court_list, courtList);
                 //adapter.setNotifyOnChange(true);
