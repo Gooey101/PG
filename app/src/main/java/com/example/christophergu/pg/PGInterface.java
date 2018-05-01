@@ -57,7 +57,7 @@ public interface PGInterface {
     Call<List<Game>> getAllGames(@Query("phone") String phone);
 
     @DELETE("account")
-    Call<String> removeAccount(@Query("phone") String phone);
+    Call<String> removeAccount(@Query("phone") String phone, @Query("phone") int tid);
 
 
     @POST("account/emergency-contact")

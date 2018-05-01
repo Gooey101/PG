@@ -128,6 +128,9 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<Account> call, Response<Account> response) {
                 if (response.isSuccessful()) {
                     isCreated[0] = true;
+
+
+                    createEmergency();
                 }
             }
 
@@ -137,6 +140,15 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
+
+
+
+
+
+
+    }
+
+    private void createEmergency() {
         String ecName = mEmergencyName.getText().toString();
         String ecPhone = mEmergencyPhone.getText().toString();
         String ecRelationship = mEmergencyRelationship.getText().toString();
@@ -148,7 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<EmergencyContact> call, Response<EmergencyContact> response) {
 
-                returnToSignIn();
+                insertTeam();
             }
 
             @Override
@@ -156,8 +168,9 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-
+    private void insertTeam() {
         // Get the user's selection for team
         int tid = (int) spinner.getSelectedItemId();
         System.out.println("TID IS :  " + tid);
@@ -181,7 +194,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         //Joins the user with the selected team
-        joinTeam join = new joinTeam(mPhoneNumber.getText().toString(), tid);
+        joinTeam join = new joinTeam(mPhoneNumber.getText().toString(), (int) spinner.getSelectedItemId()+1);
         Call<joinTeam> model = service.joinTeam(join);
         model.enqueue(new Callback<joinTeam>() {
             @Override
@@ -192,6 +205,7 @@ public class SignUpActivity extends AppCompatActivity {
                 mEmergencyPhone.getText().clear();
                 mEmergencyName.getText().clear();
                 mEmergencyRelationship.getText().clear();
+                returnToSignIn();
 
             }
 
@@ -200,8 +214,6 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void returnToSignIn() {

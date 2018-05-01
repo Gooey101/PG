@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private AccountArrayAdapter accountArrayAdapter;
     private ArrayList<ArrayList<Account>> gameAccounts;
     private boolean dataReady = false;
+    private int TID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
         service2 = retrofit2.create(PGInterface.class);
 
 
-
         // Retrieve team information about the user
         Call<List<Team>> call = service.getTeam(phone);
         call.enqueue(new Callback<List<Team>>() {
@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Team>> call, Response<List<Team>> response) {
                 if (response.body().size() > 0)
                     mUserTeam.setText(response.body().get(0).gettName());
+                TID = response.body().get(0).getTid();
             }
 
             @Override
@@ -112,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
 
 
         // Retrieve information of all games the user is in
@@ -155,20 +155,23 @@ public class MainActivity extends AppCompatActivity {
                 retrieveEmergencyData();
                 return true;
             case R.id.remove:
-                Call<String> call = service.removeAccount(phone);
-                call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Toast.makeText(getApplicationContext(),
-                                "Account has been removed!",
-                                Toast.LENGTH_SHORT).show();
-                        returnToSignIn();
-                    }
 
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                    }
-                });
+
+                returnToSignIn();
+//                Call<String> call = service.removeAccount(phone, TID);
+//                call.enqueue(new Callback<String>() {
+//                    @Override
+//                    public void onResponse(Call<String> call, Response<String> response) {
+//                        Toast.makeText(getApplicationContext(),
+//                                "Account has been removed!",
+//                                Toast.LENGTH_SHORT).show();
+//                        returnToSignIn();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<String> call, Throwable t) {
+//                    }
+//                });
                 return true;
             default:
                 // The user's action was not recognized. Invoke the superclass to handle it.

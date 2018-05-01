@@ -1,6 +1,6 @@
 -- CREATE TABLE accounts (phone CHAR(10) PRIMARY KEY,
 -- username VARCHAR(25) UNIQUE NOT NULL,
--- dob DATE NOT NULL);-- 
+-- dob DATE NOT NULL);
 -- 
 -- CREATE TABLE emergencyContacts(phone CHAR(10),
 -- fName VARCHAR(25) NOT NULL,
@@ -74,5 +74,5 @@
 -- FOREIGN KEY (cid) REFERENCES courts(cid));
 --
 -- SET FOREIGN_KEY_CHECKS = 0;
--- TRUNCATE TABLE soccerFields;
+-- TRUNCATE TABLE accounts;
 -- SET FOREIGN_KEY_CHECKS = 1;
