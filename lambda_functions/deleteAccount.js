@@ -42,9 +42,9 @@ exports.handler = (event, context, callback) => {
     var sql5 = "SELECT tid FROM members WHERE phone = " + event.phone;
     db.query(sql5, function(error, rows, fields) {
         var tid = rows[0]["tid"];
-
+        
         // Update team numMembers from "teams" table
-        var sql6 = "UPDATE teams SET numMembers = numMembers - 1 WHERE tid = " + tid;
+        var sql6 = "UPDATE teams SET numMembers = numMembers - 1 WHERE tid = " + tid.toString();
         db.query(sql6);
     });
 
