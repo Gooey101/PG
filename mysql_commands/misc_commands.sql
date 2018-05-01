@@ -7,10 +7,10 @@
 -- INSERT INTO teams (tname, description) VALUES ("Facebook", "everyone hates Facebook");
 -- SELECT MAX(numMembers), tName, description FROM teams;
 -- SELECT tid FROM members WHERE phone = "3149607357";
--- UPDATE teams SET numMembers = 0 WHERE tid = 1;
+-- UPDATE teams SET numMembers = 0 WHERE tid = 4;
 
 -- SELECT * FROM members;
--- INSERT INTO members VALUES("3149607356", 2);
+-- INSERT INTO members VALUES("6366750378", 1);
 
 -- SELECT * FROM games;
 -- INSERT INTO games (sport, description, gameDate, startTime, endTime, minAge, maxAge, minSkillLevel, capacity, creator)

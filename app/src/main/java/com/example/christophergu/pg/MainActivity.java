@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.remove:
 
-
+                Toast.makeText(getApplicationContext(), "You have logged out!", Toast.LENGTH_SHORT).show();
                 returnToSignIn();
 //                Call<String> call = service.removeAccount(phone, TID);
 //                call.enqueue(new Callback<String>() {
